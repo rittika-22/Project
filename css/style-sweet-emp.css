@@ -1,0 +1,114 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F8F5EE;
+    /* Very Light Beige */
+}
+
+.bg-lightblue {
+    background-color:#e48511 !important;
+    /* Dark Brown */
+}
+.bg-darkorange
+{
+    background-color: #b34700;
+}
+
+.text-white {
+    color: white !important;
+}
+
+.btn-custom-mid-brown {
+    background-color: #A0785A;
+    /* Mid-tone Brown */
+    border-color: #A0785A;
+    color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-custom-mid-brown:hover {
+    background-color: #8D6E63;
+    /* Slightly darker hover */
+    border-color: #8D6E63;
+    color: white;
+}
+
+.card-custom-border {
+    border-color: #D4C7B7;
+    /* Subtle Light Brown */
+}
+
+.card-title-custom {
+    color: #6F4F28;
+    /* Dark Brown */
+}
+
+/* Card enhancements */
+.item-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 0.75rem;
+    /* Rounded corners */
+    overflow: hidden;
+    border: 1px solid #D4C7B7;
+    /* Apply custom border to cards */
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.item-card img {
+    height: 200px;
+    /* Fixed height for images */
+    object-fit: cover;
+    /* Ensure images cover the area */
+}
+
+/* Utility classes for page switching */
+.hidden-page {
+    display: none;
+}
+
+.active-page {
+    display: block;
+}
+
+/* Add Item Button styling */
+.add-item-btn {
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #b34700;
+    /* Mid-tone Brown */
+    border: none;
+}
+
+.add-item-btn:hover {
+    background-color: #0e7009;
+    /* Slightly darker hover */
+    color: white;
+}
+
+/* Star rating color (if applicable for display) */
+.star-rating .fas,
+.star-rating .fa-star-half-alt {
+    color: #FFD700;
+    /* Gold color for filled/half stars */
+}
+
+.star-rating .far {
+    color: #ccc;
+    /* Light gray for empty stars */
+}
+
+/* Form styling */
+.form-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D4C7B7;
+}

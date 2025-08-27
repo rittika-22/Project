@@ -1,0 +1,105 @@
+ body {
+     font-family: 'Inter', sans-serif;
+     background-color: #F8F5EE;
+     /* Very Light Beige */
+ }
+
+ /* Original .bg-lightblue replaced with custom brown */
+ .bg-lightblue {
+     background-color:#e48511 !important;
+     /* Dark Brown */
+ }
+
+ .text-white {
+     color: white !important;
+ }
+
+ .btn-custom-mid-brown {
+     background-color:#b34700;
+     /* Mid-tone Brown */
+     border-color: #A0785A;
+     color: white;
+     transition: background-color 0.3s ease, border-color 0.3s ease;
+ }
+
+ .btn-custom-mid-brown:hover {
+     background-color: #d24119;
+     /* Slightly darker hover */
+     border-color: #8D6E63;
+     color: white;
+ }
+
+ .card-custom-border {
+     border-color: #D4C7B7;
+     /* Subtle Light Brown */
+ }
+
+ .card-title-custom {
+     color: #6F4F28;
+     /* Dark Brown */
+ }
+
+ /* Card enhancements */
+ .item-card {
+     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+     border-radius: 0.75rem;
+     /* Rounded corners */
+     overflow: hidden;
+     border: 1px solid #D4C7B7;
+     /* Apply custom border to cards */
+ }
+
+ .item-card:hover {
+     transform: translateY(-5px);
+     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+ }
+
+ .item-card img {
+     height: 200px;
+     /* Fixed height for images */
+     object-fit: cover;
+     /* Ensure images cover the area */
+ }
+
+ .order-page-card {
+     border-radius: 0.75rem;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     background-color: white;
+     /* Ensure order page cards are white */
+     border: 1px solid #D4C7B7;
+ }
+
+ /* Utility classes for page switching */
+ .hidden-page {
+     display: none;
+ }
+
+ .active-page {
+     display: block;
+ }
+
+ /* Profile icon styling */
+ .profile-icon {
+     font-size: 2.5rem;
+     cursor: pointer;
+     color: white;
+     /* Ensure icon is white */
+     transition: color 0.3s ease;
+ }
+
+ .profile-icon:hover {
+     color: #A0785A;
+     /* Mid-tone Brown on hover */
+ }
+
+ /* Star rating color */
+ .star-rating .fas,
+ .star-rating .fa-star-half-alt {
+     color: #FFD700;
+     /* Gold color for filled/half stars */
+ }
+
+ .star-rating .far {
+     color: #ccc;
+     /* Light gray for empty stars */
+ }
