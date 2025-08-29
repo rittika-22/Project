@@ -1,0 +1,64 @@
+/* Custom styles for waffles-emp.html */
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Star rating colors */
+.star-rating .fas.fa-star,
+.star-rating .fas.fa-star-half-alt {
+    color: #FFD700; /* Gold color for filled/half stars */
+}
+
+/* Header background image to match the screenshot */
+header {
+    background-image: url('../images/waffle-emp-bg.jpg'); /* Placeholder: you'll need to create this image or adjust path */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly dark overlay for text readability */
+    z-index: 1;
+}
+
+header h1, header div {
+    position: relative;
+    z-index: 2;
+}
+
+/* Modal specific styles for smooth transitions */
+.modal {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+}
+
+.modal-content {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transform: scale(0.95); /* Start slightly smaller */
+    opacity: 0; /* Start hidden */
+}
+
+.modal.flex .modal-content { /* When modal is visible (has 'flex' due to JS showing it) */
+    transform: scale(1); /* Scale to full size */
+    opacity: 1; /* Fully opaque */
+}
+
+/* --- NEW STYLES FOR PERFECT IMAGE SHAPE --- */
+
+/* This targets the image inside the dynamically created waffle card */
+
+.waffle-card img {
+    width: 100%;
+    height: 180px; /* Use a fixed height in CSS for consistency */
+    object-fit: cover;
+    border-radius: 8px; /* Consistent rounded corners */
+}

@@ -138,46 +138,35 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
 
     // Carousel functionality (existing from your original code)
-    const reviewsCarousel = document.getElementById('reviews-carousel');
-    const prevReviewButton = document.getElementById('prev-review');
-    const nextReviewButton = document.getElementById('next-review');
-    const reviewCards = document.querySelectorAll('.review-card-item');
-    let currentIndex = 0;
-
     if (reviewsCarousel && prevReviewButton && nextReviewButton && reviewCards.length > 0) {
-        function adjustButtonPositioning() {
-            const reviewsSection = document.getElementById('reviews');
-            if (reviewsSection) {
-                const sectionRect = reviewsSection.getBoundingClientRect();
-                const carouselRect = reviewsCarousel.getBoundingClientRect();
-                const topOffset = carouselRect.top - sectionRect.top + (carouselRect.height / 2);
-                
-                prevReviewButton.style.top = `${topOffset}px`;
-                nextReviewButton.style.top = `${topOffset}px`;
-                prevReviewButton.style.left = `${carouselRect.left - sectionRect.left + 10}px`;
-                nextReviewButton.style.right = `${sectionRect.right - carouselRect.right + 10}px`;
-            }
-        }
+    // This entire function was the problem. You correctly commented it out.
+    // function adjustButtonPositioning() {
+    //    ... (code you commented out) ...
+    // }
 
-        window.addEventListener('load', adjustButtonPositioning);
-        window.addEventListener('resize', adjustButtonPositioning);
+    // These event listeners were calling the problematic function. You correctly commented them out.
+    // window.addEventListener('load', adjustButtonPositioning);
+    // window.addEventListener('resize', adjustButtonPositioning);
 
-        const showReview = (index) => {
-            reviewsCarousel.style.transform = `translateX(-${index * 100}%)`;
-        };
+    // This is the code that makes the carousel slide. I have uncommented it.
+    const showReview = (index) => {
+        reviewsCarousel.style.transform = `translateX(-${index * 100}%)`;
+    };
 
-        prevReviewButton.addEventListener('click', () => {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : reviewCards.length - 1;
-            showReview(currentIndex);
-        });
-
-        nextReviewButton.addEventListener('click', () => {
-            currentIndex = (currentIndex < reviewCards.length - 1) ? currentIndex + 1 : 0;
-            showReview(currentIndex);
-        });
-
+    // These event listeners are what make the arrows clickable. I have uncommented them.
+    prevReviewButton.addEventListener('click', () => {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : reviewCards.length - 1;
         showReview(currentIndex);
-    } else {
-        console.warn("Reviews carousel elements not found. Carousel functionality might be disabled.");
-    }
+    });
+
+    nextReviewButton.addEventListener('click', () => {
+        currentIndex = (currentIndex < reviewCards.length - 1) ? currentIndex + 1 : 0;
+        showReview(currentIndex);
+    });
+
+    // This line ensures the carousel starts at the first review.
+    showReview(currentIndex);
+} else {
+    console.warn("Reviews carousel elements not found. Carousel functionality might be disabled.");
+}
 });
