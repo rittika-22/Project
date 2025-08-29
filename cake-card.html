@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="/Project/css/style-cake.css">
 </head>
 <body>
-    <div id="main-container">
-        <div class="row" id="cake-container">
-            <nav class="text-black display-5 p-4 d-flex text-center justify-content-between align-items-center fw-bold">
-                <h1 id="header-1" class="text-white display-3">Welcome to Cake & Pastry</h1>
-                <button class="btn btn-outline-danger" id="cart-button">
+    <div id="main-app">
+        <div class="active-page" id="cake-shop-page">
+            <nav class="text-white display-5 p-4 d-flex text-center justify-content-between align-items-center fw-bold">
+                <h1 id="header-1" class="text-white display-2">Welcome to Cake & Pastry</h1>
+                <button class="btn btn-lg text-white border-4 p-2 border-danger bg-green hover-effect" id="cart-button">
                     Go to Cart <i class="fa-solid fa-cart-shopping text-2xl text-amber-600 hover:text-amber-700 transition-colors duration-200 cursor-pointer"></i>
-                </button>
+                </button
             </nav>
         </div>
         <div class="card-container container mt-4">
@@ -24,46 +24,7 @@
                 <input type="text" id="searchInput" class="form-control" placeholder="Search for desserts...">
             </div>
             <div class="item-cards row" id="itemCardsContainer">
-                <div class="col-3">
-                    <div class="card" style="width: 16rem;">
-                      <img src="/Project/images/cake.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                </div>
-                </div>
-             <div class="col-3">
-                    <div class="card" style="width: 16rem;">
-                      <img src="/Project/images/cake.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                </div>
-                </div>
-                 <div class="col-3">
-                    <div class="card" style="width: 16rem;">
-                      <img src="/Project/images/cake.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                </div>
-                </div>
-                <div class="col-3">
-                    <div class="card" style="width: 16rem;">
-                      <img src="/Project/images/cake.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                </div>
-                </div>
+                    <!-- Dessert cards will be dynamically loaded here -->
             </div>
         </div>
 

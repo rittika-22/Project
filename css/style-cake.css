@@ -1,17 +1,13 @@
 body {
-    margin: 5px;   
-    padding-top: 150px;        
+        
     overflow-x: hidden; 
     font-family: 'Inter', sans-serif; 
 }
-#cake-container {
-    position:relative;      /* fixes it in place */
-    top: 0;               /* sticks to the top */
-    left: 0;
-    width: 100%;          /* full width */
-    z-index: 1000;        /* keeps it above other elements */
-}
-
 nav{
     background-color: #e48511 !important ;
+}
+.hover-effect:hover{
+     background-color: #077307;
+     border-color: #e31212 !important;
+     transition: all 0.3s ease-in-out;
 }
