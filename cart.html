@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Oasis - Your Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #fcf8f6; /* bg-stone-50 */
+        }
+        .cart-item-card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            border: 1px solid #fde68a; /* border-amber-200 */
+        }
+    </style>
+</head>
+
+<body class="bg-stone-50 text-gray-800">
+    <nav class="bg-amber-800 text-white p-4 shadow-lg w-full">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold rounded-md p-2 hover:text-amber-300 transition duration-300">Desert Oasis</a>
+            <div class="space-x-4">
+                <a href="index.html#home" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Home</a>
+                <a href="index.html#about" class="hover:text-amber-300 transition duration-300 rounded-md p-2">About</a>
+                <a href="index.html#food-items" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Delights</a>
+                <a href="index.html#contact" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Contact</a>
+                <a href="icecream-emp.html" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Employee Sector</a>
+                <a id="view-cart" href="cart.html" class="hover:text-amber-300 transition duration-300 rounded-md p-2 relative">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-4 py-8 md:py-16">
+        <div class="bg-amber-600 text-white p-6 rounded-xl shadow-lg mb-8 md:mb-12 flex justify-between items-center flex-wrap">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 md:mb-0">Your Order</h1>
+            <div class="flex items-center flex-wrap">
+                <p class="text-xl md:text-2xl font-bold mr-4 mb-2 md:mb-0">Total: <span id="cart-total-display">Tk 0.00</span></p>
+                <a href="icecream.html" class="bg-white text-amber-800 font-semibold py-2 px-6 rounded-full shadow-md hover:bg-gray-100 transition-colors">Back to Shop</a>
+            </div>
+        </div>
+
+        <div id="cart-items-display" class="space-y-6">
+            <p id="empty-cart-message" class="text-center text-lg text-gray-600 hidden">Your cart is empty. Start adding some delicious ice creams! 🍦</p>
+        </div>
+
+        <div class="flex justify-center mt-8">
+            <button id="checkout-btn" class="bg-emerald-600 text-white font-semibold py-3 px-12 rounded-full shadow-md hover:bg-emerald-700 transition-colors transform hover:scale-105">
+                Proceed to Checkout
+            </button>
+        </div>
+    </main>
+
+    <footer id="contact" class="bg-amber-900 text-white py-10 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-4">&copy; 2025 Desert Oasis. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 text-2xl">
+                <a href="#" class="hover:text-amber-300 transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-amber-300 transition duration-300"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-amber-300 transition duration-300"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-amber-300 transition duration-300"><i class="fab fa-pinterest"></i></a>
+            </div>
+            <p class="mt-4 text-sm">Contact us at: info@desertoasis.com</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let cart = JSON.parse(sessionStorage.getItem('iceCreamCart')) || [];
+            const cartTotalDisplay = document.getElementById('cart-total-display');
+            const cartItemsDisplay = document.getElementById('cart-items-display');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            const cartCountSpan = document.getElementById('cart-count');
+
+            function updateCartCount() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountSpan.textContent = totalItems;
+            }
+
+            function saveCart() {
+                sessionStorage.setItem('iceCreamCart', JSON.stringify(cart));
+                updateCartCount();
+                renderCartItems();
+                updateCartTotal();
+            }
+
+            function updateCartTotal() {
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                cartTotalDisplay.textContent = `Tk ${total.toFixed(2)}`;
+            }
+
+            function renderCartItems() {
+                cartItemsDisplay.innerHTML = ''; // Clear existing items
+
+                if (cart.length === 0) {
+                    emptyCartMessage.classList.remove('hidden');
+                } else {
+                    emptyCartMessage.classList.add('hidden');
+                    cart.forEach((item, index) => {
+                        const itemCard = document.createElement('div');
+                        itemCard.className = 'cart-item-card p-4 flex items-center justify-between flex-wrap';
+                        itemCard.innerHTML = `
+                            <div class="flex items-center mb-4 md:mb-0 w-full md:w-auto">
+                                <img src="${item.imageSrc}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mr-4">
+                                <div>
+                                    <p class="font-semibold text-lg text-amber-900">${item.name}</p>
+                                    <p class="text-gray-600 text-sm">Tk ${item.price.toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center w-full md:w-auto justify-between md:justify-end">
+                                <div class="flex items-center border border-gray-300 rounded-md overflow-hidden mr-4">
+                                    <button class="quantity-btn bg-gray-100 px-3 py-1 hover:bg-gray-200 transition-colors" data-index="${index}" data-action="decrease">-</button>
+                                    <span class="px-3 py-1">${item.quantity}</span>
+                                    <button class="quantity-btn bg-gray-100 px-3 py-1 hover:bg-gray-200 transition-colors" data-index="${index}" data-action="increase">+</button>
+                                </div>
+                                <p class="font-bold text-lg text-amber-800 mr-4">Tk ${(item.price * item.quantity).toFixed(2)}</p>
+                                <button class="remove-item-btn text-red-500 hover:text-red-700 text-xl" data-index="${index}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        `;
+                        cartItemsDisplay.appendChild(itemCard);
+                    });
+                }
+            }
+
+            // Event listeners for quantity changes and item removal
+            cartItemsDisplay.addEventListener('click', (event) => {
+                if (event.target.classList.contains('quantity-btn')) {
+                    const index = parseInt(event.target.dataset.index);
+                    const action = event.target.dataset.action;
+
+                    if (action === 'increase') {
+                        cart[index].quantity++;
+                    } else if (action === 'decrease') {
+                        if (cart[index].quantity > 1) {
+                            cart[index].quantity--;
+                        } else {
+                            cart.splice(index, 1); // Remove item if quantity goes to 0
+                        }
+                    }
+                    saveCart();
+                } else if (event.target.closest('.remove-item-btn')) {
+                    const index = parseInt(event.target.closest('.remove-item-btn').dataset.index);
+                    cart.splice(index, 1);
+                    saveCart();
+                }
+            });
+
+            // Initial render
+            renderCartItems();
+            updateCartTotal();
+            updateCartCount(); // Update cart count in navbar on cart.html as well
+
+            // NEW: Checkout functionality
+            const checkoutButton = document.getElementById('checkout-btn');
+
+            if (checkoutButton) {
+                checkoutButton.addEventListener('click', () => {
+                    // Show a simple browser alert/popup
+                    alert("Proceeding to checkout! Your order has been placed.");
+
+                    // Clear the cart from session storage
+                    sessionStorage.removeItem('iceCreamCart');
+
+                    // Redirect the user to the home page
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
