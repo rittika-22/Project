@@ -5,6 +5,7 @@ body {
 }
 nav{
     background-color: #e48511 !important ;
+    color: black !important;
 }
 .hover-effect:hover{
      background-color: #077307;
