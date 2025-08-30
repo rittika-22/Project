@@ -21,6 +21,48 @@
     color: yellow;
 }
 
+/* New Search Bar Styling */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem; /* Adds space between the search bar and product grid */
+}
+
+.search-container .relative {
+    position: relative;
+    width: 100%;
+    max-width: 480px; /* Adjust as needed */
+}
+
+.search-container input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1.25rem;
+    border: 2px solid transparent;
+    border-radius: 9999px; /* This makes the input fully rounded */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #f59e0b; /* Tailwind's amber-500 */
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.5); /* Tailwind's ring-2 focus */
+}
+
+.search-container button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 1rem;
+    color: #6b7280; /* Tailwind's gray-500 */
+    transition: color 0.3s;
+}
+
+.search-container button:hover {
+    color: #f59e0b; /* Tailwind's amber-500 */
+}
+
 /* Carousel Styles */
 #reviews-carousel {
     display: flex;

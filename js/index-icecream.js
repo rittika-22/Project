@@ -13,18 +13,119 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // Fallback to a default hardcoded list if no employee updates exist
         iceCreamProducts = [
-            { "id": 1, "name": "Chocolate Fudge", "price": 500.00, "rating": 4.8, "image": "./images/chocolate-fudge.png" },
-            { "id": 2, "name": "Mint Chocolate Chip", "price": 475.00, "rating": 4.5, "image": "./images/mint-chocolate-chip.png" },
-            { "id": 3, "name": "Strawberry Delight", "price": 450.00, "rating": 4.2, "image": "./images/strawberry.png" },
-            { "id": 4, "name": "Vanilla Bean", "price": 420.00, "rating": 4.0, "image": "./images/vanilla.png" },
-            { "id": 5, "name": "Cookie Dough", "price": 520.00, "rating": 4.7, "image": "./images/cookie-dough.png" },
-            { "id": 6, "name": "Pistachio Dream", "price": 550.00, "rating": 4.6, "image": "./images/pistachio.png" },
-            { "id": 7, "name": "Butter Pecan", "price": 490.00, "rating": 4.3, "image": "./images/butter-pecan.png" },
-            { "id": 8, "name": "Rocky Road", "price": 530.00, "rating": 4.4, "image": "./images/rocky-road.png" }
+            { "id": 1, "name": "Rainbow Icecream", "price": 450.00, "rating": 4.0, "image": "./images/icecream.png" },
+            { "id": 2, "name": "Chocolate Fudge", "price": 500.00, "rating": 4.5, "image": "./images/chocolate-fudge.jpg" },
+            { "id": 3, "name": "Mint Chocolate Chip", "price": 475.00, "rating": 5.0, "image": "./images/mint-chip.jpg" },
+            { "id": 4, "name": "Strawberry Swirl", "price": 425.00, "rating": 3.5, "image": "./images/strawberry.jpg" },
+            { "id": 5, "name": "Vanilla Bean", "price": 380.00, "rating": 4.5, "image": "./images/vanilla.jpg" },
+            { "id": 6, "name": "Cookie Dough", "price": 530.00, "rating": 5.0, "image": "./images/cookie-dough.jpg" },
         ];
         console.log('Using default hardcoded ice cream data.');
     }
     // --- END OF NEW CODE ---
+
+    // --- NEW: Function to render product cards ---
+    function renderProducts(products) {
+        const productGrid = document.getElementById('ice-cream-grid');
+        if (!productGrid) {
+            console.error('Ice cream grid container not found.');
+            return;
+        }
+        
+        productGrid.innerHTML = ''; // Clear existing products
+
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center';
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-amber-900 mb-2">${product.name}</h3>
+                    <p class="text-gray-700 text-md font-medium mb-3">Price: Tk ${product.price.toFixed(2)}</p>
+                    <p class="text-gray-600 text-sm mb-3">${product.description || 'A delicious and refreshing ice cream flavor.'}</p>
+                    <div class="star-rating text-lg">
+                        ${generateStarRating(product.rating)}
+                    </div>
+                    <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
+                            data-name="${product.name}" 
+                            data-price="${product.price}" 
+                            data-image-src="${product.image}"> 
+                        Add to Cart
+                    </button>
+                </div>
+            `;
+            productGrid.appendChild(productCard);
+        });
+
+        // Re-attach event listeners to the new buttons
+        attachAddToCartListeners();
+    }
+    
+    // Helper function to generate star rating HTML
+    function generateStarRating(rating) {
+        let stars = '';
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+
+        for (let i = 0; i < fullStars; i++) {
+            stars += '<i class="fas fa-star"></i>';
+        }
+        if (hasHalfStar) {
+            stars += '<i class="fas fa-star-half-alt"></i>';
+        }
+        const emptyStars = 5 - Math.ceil(rating);
+        for (let i = 0; i < emptyStars; i++) {
+            stars += '<i class="far fa-star"></i>';
+        }
+        return `${stars} (${rating.toFixed(1)})`;
+    }
+
+    // --- NEW: Function to attach add-to-cart listeners ---
+    function attachAddToCartListeners() {
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const name = event.target.dataset.name;
+                const price = parseFloat(event.target.dataset.price);
+                const imageSrc = event.target.dataset.imageSrc;
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ name, price, imageSrc, quantity: 1 });
+                }
+                saveCart();
+                showConfirmationModal();
+            });
+        });
+    }
+
+    // --- NEW: Initial render of products and search bar functionality ---
+    renderProducts(iceCreamProducts);
+    
+    const searchInput = document.getElementById('ice-cream-search');
+    const searchButton = document.getElementById('search-button');
+
+    if (searchButton && searchInput) {
+        searchButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent form submission
+            performSearch();
+        });
+
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+                performSearch();
+            }
+        });
+    }
+
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredProducts = iceCreamProducts.filter(product =>
+            product.name.toLowerCase().includes(searchTerm)
+        );
+        renderProducts(filteredProducts);
+    }
 
 
     // Cart functionality
@@ -59,24 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('iceCreamCart', JSON.stringify(cart));
         updateCartCount();
     }
-
-    // This part now ONLY handles adding items to the cart and showing the confirmation modal
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const name = event.target.dataset.name;
-            const price = parseFloat(event.target.dataset.price);
-            const imageSrc = event.target.dataset.imageSrc;
-
-            const existingItem = cart.find(item => item.name === name);
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({ name, price, imageSrc, quantity: 1 });
-            }
-            saveCart();
-            showConfirmationModal();
-        });
-    });
 
     // Show confirmation modal
     function showConfirmationModal() {
@@ -137,36 +220,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial cart count update
     updateCartCount();
 
-    // Carousel functionality (existing from your original code)
+    // Carousel functionality
+    const reviewsCarousel = document.getElementById('reviews-carousel');
+    const prevReviewButton = document.getElementById('prev-review');
+    const nextReviewButton = document.getElementById('next-review');
+    const reviewCards = reviewsCarousel ? reviewsCarousel.querySelectorAll('.review-card-item') : [];
+    let currentIndex = 0;
+
     if (reviewsCarousel && prevReviewButton && nextReviewButton && reviewCards.length > 0) {
-    // This entire function was the problem. You correctly commented it out.
-    // function adjustButtonPositioning() {
-    //    ... (code you commented out) ...
-    // }
+        const showReview = (index) => {
+            reviewsCarousel.style.transform = `translateX(-${index * 100}%)`;
+        };
 
-    // These event listeners were calling the problematic function. You correctly commented them out.
-    // window.addEventListener('load', adjustButtonPositioning);
-    // window.addEventListener('resize', adjustButtonPositioning);
+        prevReviewButton.addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : reviewCards.length - 1;
+            showReview(currentIndex);
+        });
 
-    // This is the code that makes the carousel slide. I have uncommented it.
-    const showReview = (index) => {
-        reviewsCarousel.style.transform = `translateX(-${index * 100}%)`;
-    };
+        nextReviewButton.addEventListener('click', () => {
+            currentIndex = (currentIndex < reviewCards.length - 1) ? currentIndex + 1 : 0;
+            showReview(currentIndex);
+        });
 
-    // These event listeners are what make the arrows clickable. I have uncommented them.
-    prevReviewButton.addEventListener('click', () => {
-        currentIndex = (currentIndex > 0) ? currentIndex - 1 : reviewCards.length - 1;
         showReview(currentIndex);
-    });
-
-    nextReviewButton.addEventListener('click', () => {
-        currentIndex = (currentIndex < reviewCards.length - 1) ? currentIndex + 1 : 0;
-        showReview(currentIndex);
-    });
-
-    // This line ensures the carousel starts at the first review.
-    showReview(currentIndex);
-} else {
-    console.warn("Reviews carousel elements not found. Carousel functionality might be disabled.");
-}
+    } else {
+        console.warn("Reviews carousel elements not found. Carousel functionality might be disabled.");
+    }
 });

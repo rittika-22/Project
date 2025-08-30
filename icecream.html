@@ -30,141 +30,35 @@
     </nav>
 
     <section class="icecream-hero text-white rounded-b-xl shadow-xl pt-20">
-    <div class="container mx-auto px-4 hero-content text-center py-24">
-        <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-            Scoop into Paradise
-        </h1>
-        <p class="text-lg md:text-2xl mb-8 max-w-3xl mx-auto drop-shadow-md">
-            Cool down with our artisanal ice cream flavors.
-        </p>
-        <form id="search-form" class="flex items-center justify-center my-6">
-            <div class="relative w-full max-w-md">
-                <input type="text" id="search-input" placeholder="Search for a flavor..."
-                    class="w-full py-3 px-5 pr-12 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors duration-300 shadow-md text-gray-800">
-                <button type="submit" class="absolute right-0 top-0 mt-3 mr-4 text-gray-500 hover:text-pink-500 transition-colors duration-300">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </form>
-        <a href="#icecream-list"
-            class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
-            Explore Flavors
-        </a>
-     </div>
+        <div class="container mx-auto px-4 hero-content text-center py-24">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
+                Scoop into Paradise
+            </h1>
+            <p class="text-lg md:text-2xl mb-8 max-w-3xl mx-auto drop-shadow-md">
+                Cool down with our artisanal ice cream flavors.
+            </p>
+            <a href="#icecream-list"
+                class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                Explore Flavors
+            </a>
+        </div>
     </section>
 
     <section id="icecream-list" class="py-16 md:py-24 bg-amber-50 rounded-xl shadow-lg mt-8 mx-4">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl font-bold text-amber-800 text-center mb-12">Our Delicious Flavors</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center">
-                    <img src="images/icecream.png" alt="Rainbow Ice Cream" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-amber-900 mb-2">Rainbow Icecream</h3>
-                        <p class="text-gray-700 text-md font-medium mb-3">Price: Tk 450.00</p>
-                        <p class="text-gray-600 text-sm mb-3">A burst of color and flavor with a playful mix of sprinkles. Perfect for all ages!</p>
-                        <div class="star-rating text-lg">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> (4.0)
-                        </div>
-                        <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="Rainbow Icecream" 
-                                data-price="450.00" 
-                                data-image-src="images/icecream.png"> 
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center">
-                    <img src="images/chocolate-fudge.jpg" alt="Chocolate Fudge Ice Cream" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-amber-900 mb-2">Chocolate Fudge</h3>
-                        <p class="text-gray-700 text-md font-medium mb-3">Price: Tk 500.00</p>
-                        <p class="text-gray-600 text-sm mb-3">Rich, creamy chocolate ice cream swirled with decadent fudge. A classic for a reason.</p>
-                        <div class="star-rating text-lg">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)
-                        </div>
-                        <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="Chocolate Fudge" 
-                                data-price="500.00" 
-                                data-image-src="images/chocolate-fudge.jpg"> 
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center">
-                    <img src="images/mint-chip.jpg" alt="Mint Chocolate Chip Ice Cream" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-amber-900 mb-2">Mint Chocolate Chip</h3>
-                        <p class="text-gray-700 text-md font-medium mb-3">Price: Tk 475.00</p>
-                        <p class="text-gray-600 text-sm mb-3">Cool mint ice cream packed with crunchy dark chocolate chips. A refreshing favorite.</p>
-                        <div class="star-rating text-lg">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (5.0)
-                        </div>
-                        <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="Mint Chocolate Chip" 
-                                data-price="475.00" 
-                                data-image-src="images/mint-chip.jpg"> 
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center">
-                    <img src="images/strawberry.jpg" alt="Strawberry Swirl Ice Cream" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-amber-900 mb-2">Strawberry Swirl</h3>
-                        <p class="text-gray-700 text-md font-medium mb-3">Price: Tk 425.00</p>
-                        <p class="text-gray-600 text-sm mb-3">Sweet strawberry ice cream with a ripple of strawberry sauce. Pure fruity goodness.</p>
-                        <div class="star-rating text-lg">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i> (3.5)
-                        </div>
-                        <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="Strawberry Swirl" 
-                                data-price="425.00" 
-                                data-image-src="images/strawberry.jpg"> 
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center">
-                    <img src="images/vanilla.jpg" alt="Vanilla Bean Ice Cream" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-amber-900 mb-2">Vanilla Bean</h3>
-                        <p class="text-gray-700 text-md font-medium mb-3">Price: Tk 380.00</p>
-                        <p class="text-gray-600 text-sm mb-3">Classic, creamy vanilla with flecks of real vanilla bean. The perfect scoop for any topping.</p>
-                        <div class="star-rating text-lg">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)
-                        </div>
-                        <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="Vanilla Bean" 
-                                data-price="380.00" 
-                                data-image-src="images/vanilla.jpg"> 
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center">
-                    <img src="images/cookie-dough.jpg" alt="Cookie Dough Ice Cream" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-amber-900 mb-2">Cookie Dough</h3>
-                        <p class="text-gray-700 text-md font-medium mb-3">Price: Tk 530.00</p>
-                        <p class="text-gray-600 text-sm mb-3">Sweet cream ice cream loaded with chunks of chocolate chip cookie dough. A textural delight!</p>
-                        <div class="star-rating text-lg">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (5.0)
-                        </div>
-                        <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="Cookie Dough" 
-                                data-price="530.00" 
-                                data-image-src="images/cookie-dough.jpg"> 
-                            Add to Cart
-                        </button>
-                    </div>
+            <div class="flex items-center justify-center mb-12">
+                <div class="relative w-full max-w-md">
+                    <input type="text" id="ice-cream-search" placeholder="Search for a flavor..."
+                        class="w-full py-3 px-5 pr-12 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors duration-300 shadow-md text-gray-800">
+                    <button id="search-button" class="absolute right-0 top-0 mt-3 mr-4 text-gray-500 hover:text-amber-500 transition-colors duration-300">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
+            
+            <h2 class="text-3xl md:text-4xl font-bold text-amber-800 text-center mb-12">Our Delicious Flavors</h2>
+            <div id="ice-cream-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
         </div>
     </section>
 
@@ -286,7 +180,7 @@
     </div>
 
     <div id="confirmation-modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-[1001] hidden">
-       <div class="modal-content relative mx-auto p-5 border w-80 shadow-lg rounded-md bg-white text-center">
+        <div class="modal-content relative mx-auto p-5 border w-80 shadow-lg rounded-md bg-white text-center">
             <div class="modal-header flex justify-end pb-3">
                 <span class="close-button text-gray-500 hover:text-gray-800 text-2xl font-bold cursor-pointer">&times;</span>
             </div>
