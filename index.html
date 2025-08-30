@@ -36,7 +36,18 @@
             <div class="hidden lg:flex space-x-6">
                 <a href="#home" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Home</a>
                 <a href="#about" class="hover:text-amber-300 transition duration-300 rounded-md p-2">About</a>
-                <a href="#food-items" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Delights</a>
+                <div class="relative">
+                    <button class="hover:text-amber-300 transition duration-300 rounded-md p-2">
+                    Delights
+                   </button>
+               <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 w-48 z-10">
+                   <a href="#chocolate-cake" class="block px-4 py-2 hover:bg-amber-100">Chocolate Cake</a>
+                   <a href="#strawberry-tart" class="block px-4 py-2 hover:bg-amber-100">Strawberry Tart</a>
+                   <a href="#croissant" class="block px-4 py-2 hover:bg-amber-100">Butter Croissant</a>
+                   <a href="#cheesecake" class="block px-4 py-2 hover:bg-amber-100">Classic Cheesecake</a>
+                   <a href="#macarons" class="block px-4 py-2 hover:bg-amber-100">French Macarons</a>
+                </div>
+                </div>
                 <a href="#contact" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Contact</a>
                 <a href="#" onclick="showLoginModal()"
                     class="hover:text-amber-300 transition duration-300 rounded-md p-2">Employee Sector</a>
