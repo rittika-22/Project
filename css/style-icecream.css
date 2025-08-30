@@ -15,6 +15,12 @@
     align-items: center;
 }
 
+/*for stars*/
+
+.star-rating i {
+    color: yellow;
+}
+
 /* Carousel Styles */
 #reviews-carousel {
     display: flex;
