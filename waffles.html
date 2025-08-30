@@ -13,7 +13,6 @@
 
 <body class="bg-stone-50 text-gray-800">
 
-    <!-- Navigation Bar -->
     <nav class="bg-amber-800 text-white p-4 shadow-lg w-full">
         <div class="container mx-auto flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold rounded-md p-2 hover:text-amber-300 transition duration-300">Desert Oasis</a>
@@ -30,7 +29,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="waffles-hero text-white rounded-b-xl shadow-xl pt-20">
         <div class="container mx-auto px-4 hero-content text-center py-24">
             <h1 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
@@ -46,24 +44,30 @@
         </div>
     </section>
 
-    <!-- Waffles List Section -->
     <section id="waffles-list" class="py-16 md:py-24 bg-amber-50 rounded-xl shadow-lg mt-8 mx-4">
         <div class="container mx-auto px-4">
+            <div class="flex items-center justify-center mb-12">
+                <div class="relative w-full max-w-md">
+                    <input type="text" id="waffle-search" placeholder="Search for a waffle flavor..."
+                        class="w-full py-3 px-5 pr-12 rounded-full border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors duration-300 shadow-md text-gray-800">
+                    <button id="search-button" class="absolute right-0 top-0 mt-3 mr-4 text-gray-500 hover:text-amber-500 transition-colors duration-300">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
             <h2 class="text-3xl md:text-4xl font-bold text-amber-800 text-center mb-12">Our Delicious Waffle Varieties</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="waffle-products-container">
-                <!-- Waffle cards will be dynamically loaded here by waffles.js -->
-            </div>
+                </div>
         </div>
     </section>
 
-    <!-- Reviews Section (Copied from ice cream) -->
     <section id="reviews" class="py-16 md:py-24 bg-stone-100 rounded-xl shadow-inner mt-8 mx-4">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-bold text-amber-800 text-center mb-12">What Our Clients Say About Our Waffles</h2>
             <div class="relative">
                 <div class="overflow-hidden">
                     <div id="reviews-carousel" class="flex transition-transform duration-500 ease-in-out">
-                        <!-- Review Card 1 -->
                         <div class="review-card-item p-4 min-w-full lg:min-w-[33.33%]">
                             <div class="bg-white p-6 rounded-xl shadow-md text-center border border-amber-200 h-full flex flex-col justify-between">
                                 <p class="text-gray-700 italic mb-4">"These waffles are incredibly fluffy and the perfect start to my day. So many toppings!"</p>
@@ -77,7 +81,6 @@
                             </div>
                         </div>
 
-                        <!-- Review Card 2 -->
                         <div class="review-card-item p-4 min-w-full lg:min-w-[33.33%]">
                             <div class="bg-white p-6 rounded-xl shadow-md text-center border border-amber-200 h-full flex flex-col justify-between">
                                 <p class="text-gray-700 italic mb-4">"The chocolate waffles are a dream come true. Crispy on the outside, soft on the inside. Divine!"</p>
@@ -91,7 +94,6 @@
                             </div>
                         </div>
 
-                        <!-- Review Card 3 -->
                         <div class="review-card-item p-4 min-w-full lg:min-w-[33.33%]">
                             <div class="bg-white p-6 rounded-xl shadow-md text-center border border-amber-200 h-full flex flex-col justify-between">
                                 <p class="text-gray-700 italic mb-4">"Never had such fresh waffles! The fruit toppings are always perfectly ripe. A true desert oasis."</p>
@@ -107,7 +109,6 @@
                     </div>
                 </div>
 
-                <!-- Navigation Buttons -->
                 <button id="prev-review"
                     class="absolute bg-amber-800 text-white p-4 rounded-full shadow-lg hover:bg-amber-700 transition duration-300 focus:outline-none"
                     style="top: 50%; transform: translateY(-50%); left: 10px;" title="Previous review">
@@ -125,7 +126,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer id="contact" class="bg-amber-900 text-white py-10 mt-8 rounded-t-lg">
         <div class="container mx-auto px-4 text-center">
             <p class="mb-4">&copy; 2025 Desert Oasis. All rights reserved.</p>
@@ -139,7 +139,6 @@
         </div>
     </footer>
 
-    <!-- Employee Login Modal -->
     <div id="loginModal" class="modal fixed inset-0 z-[60] bg-gray-600 bg-opacity-50 hidden flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border-t-4 border-amber-500 modal-content transform scale-95 opacity-0">
             <div class="flex justify-end">
@@ -174,7 +173,6 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal (Item Added to Cart) -->
     <div id="confirmation-modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-[1001] hidden">
         <div class="modal-content relative mx-auto p-5 border w-80 shadow-lg rounded-md bg-white text-center">
             <div class="modal-header flex justify-end pb-3">

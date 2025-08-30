@@ -24,14 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- END OF EMPLOYEE CODE ---
 
     const waffleProductsContainer = document.getElementById('waffle-products-container');
+    const searchInput = document.getElementById('waffle-search');
+    const searchButton = document.getElementById('search-button');
 
     // Function to render waffle products
-    function renderWaffleProducts() {
+    function renderWaffleProducts(products) {
         if (!waffleProductsContainer) return;
 
         waffleProductsContainer.innerHTML = ''; // Clear existing products
 
-        waffleProducts.forEach(product => {
+        products.forEach(product => {
             const starRatingHtml = Array(5).fill().map((_, i) => 
                 i < Math.floor(product.rating) ? '<i class="fas fa-star"></i>' : 
                 (i < product.rating && i === Math.floor(product.rating)) ? '<i class="fas fa-star-half-alt"></i>' : 
@@ -63,6 +65,29 @@ document.addEventListener('DOMContentLoaded', () => {
         attachAddToCartListeners();
     }
 
+    // --- NEW: Function to handle search ---
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredProducts = waffleProducts.filter(product =>
+            product.name.toLowerCase().includes(searchTerm)
+        );
+        renderWaffleProducts(filteredProducts);
+    }
+    
+    // --- NEW: Add event listeners for search ---
+    if (searchButton && searchInput) {
+        searchButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            performSearch();
+        });
+
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                performSearch();
+            }
+        });
+    }
 
     // Cart functionality
     let cart = JSON.parse(sessionStorage.getItem('waffleCart')) || []; // Changed to 'waffleCart'
@@ -172,9 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initial cart count update
+    // Initial cart count update and product render
     updateCartCount();
-    renderWaffleProducts(); // Render products on load
+    renderWaffleProducts(waffleProducts); // Pass the full list to render on initial load
 
     // Carousel functionality (copied and fixed from ice cream)
     const reviewsCarousel = document.getElementById('reviews-carousel');
@@ -184,13 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
 
     if (reviewsCarousel && prevReviewButton && nextReviewButton && reviewCards.length > 0) {
-        // The problematic adjustButtonPositioning function and its listeners are intentionally omitted here.
-
         const showReview = (index) => {
             // Adjust for multiple items visible at once (e.g., 3 cards)
-            // This assumes 3 cards are visible, and we move by one card at a time.
-            // If you change the number of visible cards, this logic needs adjustment.
-            const cardWidth = reviewCards[0].offsetWidth; // Get the width of one card
+            const containerWidth = reviewsCarousel.closest('.overflow-hidden').offsetWidth;
+            const cardWidth = containerWidth / 3; // Assuming 3 cards are visible at a time
             reviewsCarousel.style.transform = `translateX(-${index * cardWidth}px)`;
         };
 
