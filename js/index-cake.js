@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('searchInput');
 
   const defaultItems = [
-    { id: 1, name: "Black Forest Cake", price: 800.00, rating: 4.4, image: "/Project/images/black-forest.png" },
-    { id: 2, name: "Red Velvet Cake", price: 950.00, rating: 4.7, image: "./images/red-velvet.png" },
-    { id: 3, name: "Cheesecake", price: 1000.00, rating: 4.5, image: "./images/cheesecake.png" },
-    { id: 4, name: "Chocolate Pastry", price: 350.00, rating: 3.9, image: "./images/chocolate-pastry.png" },
-    { id: 5, name: "Strawberry Shortcake", price: 900.00, rating: 4.8, image: "./images/strawberry-shortcake.png" },
+    { id: 1, name: "Chocolate Cake", price: 800.00, rating: 4.4, image: "./images/chocolate-cake.png" },
+    { id: 2, name: "Red Velvet Cake", price: 950.00, rating: 4.7, image: "./images/red-velbat-kitkat-cake.png" },
+    { id: 3, name: "Black Forest Cake", price: 1000.00, rating: 4.5, image: "./images/black-forest-cake.png" },
+    { id: 4, name: "Chocolate Pastry", price: 350.00, rating: 3.9, image: "./images/choco-pastry.png" },
+    { id: 5, name: "Strawberry Shortcake", price: 900.00, rating: 4.8, image: "./images/strawberry.png" },
     { id: 6, name: "Fruit Tart", price: 600.00, rating: 4.3, image: "./images/fruit-tart.png" }
   ];
 
