@@ -2,22 +2,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const shopPage = document.getElementById('cake-shop-page');
   const cartButton = document.getElementById('cart-button');
   const searchInput = document.getElementById('searchInput');
+  const navbar = document.querySelector('.navbar-nav');
 
   const defaultItems = [
-    { id: 1, name: "Chocolate Cake", price: 800.00, rating: 4.4, image: "./images/chocolate-cake.png" },
-    { id: 2, name: "Red Velvet Cake", price: 950.00, rating: 4.7, image: "./images/red-velbat-kitkat-cake.png" },
-    { id: 3, name: "Black Forest Cake", price: 1000.00, rating: 4.5, image: "./images/black-forest-cake.png" },
-    { id: 4, name: "Chocolate Pastry", price: 350.00, rating: 3.9, image: "./images/choco-pastry.png" },
-    { id: 5, name: "Strawberry Shortcake", price: 900.00, rating: 4.8, image: "./images/strawberry.png" },
-    { id: 6, name: "Fruit Tart", price: 600.00, rating: 4.3, image: "./images/fruit-tart.png" }
+    { id: 1, name: "Chocolate Cake", price: 800.00, rating: 4.4, image: "./images/chocolate-cake.jpg" },
+    { id: 2, name: "Red Velvet Cake", price: 950.00, rating: 4.7, image: "./images/red-velbat-kitkat-cake.jpg" },
+    { id: 3, name: "Black Forest Cake", price: 1000.00, rating: 4.5, image: "./images/black-forest-cake.JPG" },
+    { id: 4, name: "Chocolate Pastry", price: 350.00, rating: 3.9, image: "./images/choco-pastry.jpeg" },
+    { id: 5, name: "Strawberry Shortcake", price: 900.00, rating: 4.8, image: "./images/strawberry.jpg" },
+    { id: 6, name: "Fruit Tart", price: 600.00, rating: 4.3, image: "./images/fruit-tart.jpg" }
   ];
 
   let cart = JSON.parse(localStorage.getItem('cakeCart')) || [];
 
-  // ------------------ Helper Functions ------------------ //
+  // ------------------ Navbar Logout Button ------------------ //
+  function updateNavbar() {
+    const loggedIn = localStorage.getItem("loggedInUser");
+    let logoutLi = document.getElementById('nav-logout');
+
+    if (loggedIn) {
+      if (!logoutLi) {
+        logoutLi = document.createElement('li');
+        logoutLi.id = 'nav-logout';
+        logoutLi.classList.add('nav-item');
+        logoutLi.innerHTML = `<a class="nav-link text-white fw-bold" href="#">Logout</a>`;
+        navbar.appendChild(logoutLi);
+
+        logoutLi.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem("loggedInUser");
+          alert("Logged out successfully!");
+          logoutLi.remove();
+        });
+      }
+    } else if (logoutLi) {
+      logoutLi.remove();
+    }
+  }
+
+  // ------------------ Cart Helper Functions ------------------ //
   function updateCartCount() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartButton.innerHTML = `Go to Cart <i class="fa-solid fa-cart-shopping"></i> (${totalItems})`;
+    document.getElementById("cart-count").textContent = totalItems;
   }
 
   function addToCart(itemId) {
@@ -31,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('cakeCart', JSON.stringify(cart));
     updateCartCount();
 
-    // Visual feedback
     const btn = document.querySelector(`.order-btn[data-item-id="${itemId}"]`);
     const originalText = btn.textContent;
     btn.textContent = "Added!";
@@ -54,7 +79,95 @@ document.addEventListener('DOMContentLoaded', () => {
     return cart.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2);
   }
 
-  // ------------------ Render Order Page ------------------ //
+  // ------------------ Login / Signup ------------------ //
+  function renderLoginPage(afterLoginCallback) {
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="container mt-5 login-box">
+        <h2 class="text-center mb-4">🔑 Customer Login</h2>
+        <form id="loginForm" class="p-4 shadow rounded bg-white">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" id="loginEmail" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" id="loginPassword" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-success w-100 mb-3">Login</button>
+          <p class="text-center">Not registered? <a href="#" id="goSignup">Sign up here</a></p>
+          <button id="backToShopBtn" class="btn btn-custom-mid-brown">Back to Shop</button>
+        </form>
+      </div>
+    `;
+
+    document.getElementById("loginForm").onsubmit = (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const pass = document.getElementById("loginPassword").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const found = users.find(u => u.email === email && u.password === pass);
+
+      if (found) {
+        localStorage.setItem("loggedInUser", JSON.stringify(found));
+        updateNavbar();
+        if (afterLoginCallback) afterLoginCallback();
+      } else {
+        alert("User not found or wrong password.");
+      }
+    };
+
+    document.getElementById("goSignup").onclick = () => renderSignupPage(afterLoginCallback);
+  }
+
+  function renderSignupPage(afterSignupCallback) {
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="container mt-5 login-box">
+        <h2 class="text-center mb-4">📝 Customer Signup</h2>
+        <form id="signupForm" class="p-4 shadow rounded bg-white">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" id="signupName" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" id="signupEmail" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" id="signupPassword" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 mb-3">Sign Up</button>
+          <p class="text-center">Already registered? <a href="#" id="goLogin">Login here</a></p>
+        </form>
+      </div>
+    `;
+
+    document.getElementById("signupForm").onsubmit = (e) => {
+      e.preventDefault();
+      const name = document.getElementById("signupName").value;
+      const email = document.getElementById("signupEmail").value;
+      const pass = document.getElementById("signupPassword").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      if (users.find(u => u.email === email)) {
+        alert("User already exists! Please login.");
+        renderLoginPage(afterSignupCallback);
+        return;
+      }
+
+      users.push({ name, email, password: pass });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Signup successful! Please log in.");
+      renderLoginPage(afterSignupCallback);
+    };
+
+    document.getElementById("goLogin").onclick = () => renderLoginPage(afterSignupCallback);
+  }
+
+  // ------------------ Order Page ------------------ //
   function renderOrderPage() {
     shopPage.style.display = "none";
 
@@ -74,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </nav>
         <div class="row mt-4" id="cartItemsContainer"></div>
         <div class="text-center mt-5 mb-5">
-          <button id="checkoutBtn" class="btn btn-success btn-lg">Proceed to Checkout</button>
+          <button id="checkoutBtn" class="btn btn-success btn-lg">Checkout Order</button>
         </div>
       `;
       document.getElementById('app').appendChild(orderPage);
@@ -82,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     cartItemsContainer.innerHTML = '';
-
     if (cart.length === 0) {
       cartItemsContainer.innerHTML = '<p class="text-center text-muted mt-5">Your cart is empty.</p>';
     } else {
@@ -123,18 +235,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     document.getElementById('checkoutBtn').onclick = () => {
-      if (cart.length > 0) {
-        alert("Your cake order has been placed!");
-        cart = [];
-        localStorage.removeItem('cakeCart');
-        updateCartCount();
-        renderOrderPage();
-      }
+      if (cart.length === 0) return alert("Your cart is empty!");
+      const loggedIn = localStorage.getItem("loggedInUser");
+      if (loggedIn) confirmOrder();
+      else renderLoginPage(confirmOrder);
     };
   }
 
+  function confirmOrder() {
+    alert("✅ Order confirmed! Thank you.");
+    cart = [];
+    localStorage.setItem("cakeCart", JSON.stringify(cart));
+    updateCartCount();
+    renderOrderPage(); // refresh order page after order
+  }
+
   // ------------------ Event Listeners ------------------ //
-  // Using event delegation for order buttons
   document.getElementById('itemCardsContainer').addEventListener('click', e => {
     if (e.target.classList.contains('order-btn')) {
       addToCart(parseInt(e.target.dataset.itemId));
@@ -150,6 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cartButton.addEventListener('click', () => renderOrderPage());
 
-  // Initial cart count
+  // ------------------ Initial Setup ------------------ //
   updateCartCount();
+  updateNavbar();
 });
