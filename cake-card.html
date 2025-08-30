@@ -15,8 +15,7 @@
     <div id="cake-shop-page" class="active-page">
       <nav class="bg-lightblue text-white display-5 p-4 d-flex justify-content-between align-items-center fw-bold">
         <h1 class="text-white display-2">Welcome to Cake & Pastry</h1>
-        <button id="cart-button" class="btn btn-lg text-white border-4 p-2 border-danger bg-green hover-effect">
-          Go to Cart <i class="fa-solid fa-cart-shopping"></i>
+        <button id="cart-button" class="btn btn-lg text-white border-4 p-2 border-danger bg-green hover-effect"> Cart <i class="fa-solid fa-cart-shopping"></i>
         </button>
         
       </nav>
@@ -25,14 +24,15 @@
         <div class="search-bar mb-4">
           <input type="text" id="searchInput" class="form-control" placeholder="Search for cakes...">
         </div>
-        <div class="cards-item row" id="itemCardsContainer">
+        <div class="cards-item" id="itemCardsContainer">
 
+          <div class="row">
           <!-- Cake 1 -->
           <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="black forest cake">
             <div class="card h-100 item-card card-custom-border">
-              <img src="./images/black-forest.png" class="card-img-top" alt="Black Forest">
+              <img src="/Project/images/chocolate-cake.jpg" class="card-img-top" alt="Black Forest">
               <div class="card-body d-flex flex-column">
-                <h5 class="card-title card-title-custom fw-bold">Black Forest Cake</h5>
+                <h5 class="card-title card-title-custom fw-bold">Chocolate Cake</h5>
                 <p class="card-text text-muted">Price: 800 Tk</p>
                 <div class="star-rating text-lg">
                   <i class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -47,7 +47,7 @@
           <!-- Cake 2 -->
           <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="red velvet cake">
             <div class="card h-100 item-card card-custom-border">
-              <img src="./images/red-velvet.png" class="card-img-top" alt="Red Velvet">
+              <img src="./images/red-velbat-kitkat-cake.jpg" class="card-img-top" alt="Red Velvet">
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title card-title-custom fw-bold">Red Velvet Cake</h5>
                 <p class="card-text text-muted">Price: 950 Tk</p>
@@ -64,9 +64,9 @@
           <!-- Cake 3 -->
           <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="cheesecake">
             <div class="card h-100 item-card card-custom-border">
-              <img src="./images/cheesecake.png" class="card-img-top" alt="Cheesecake">
+              <img src="/Project/images/black-forest-cake.JPG" class="card-img-top" alt="Cheesecake">
               <div class="card-body d-flex flex-column">
-                <h5 class="card-title card-title-custom fw-bold">Cheesecake</h5>
+                <h5 class="card-title card-title-custom fw-bold">Black Forest Cake</h5>
                 <p class="card-text text-muted">Price: 1000 Tk</p>
                 <div class="star-rating text-lg">
                   <i class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -77,7 +77,9 @@
               </div>
             </div>
           </div>
+        </div>
 
+        <div class="row">
           <!-- Cake 4 -->
           <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="chocolate pastry">
             <div class="card h-100 item-card card-custom-border">
@@ -94,7 +96,7 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Cake 5 -->
           <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="strawberry shortcake">
             <div class="card h-100 item-card card-custom-border">
@@ -128,7 +130,7 @@
               </div>
             </div>
           </div>
-
+        </div>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('searchInput');
 
   const defaultItems = [
-    { id: 1, name: "Black Forest Cake", price: 800.00, rating: 4.4, image: "./images/black-forest.png" },
+    { id: 1, name: "Black Forest Cake", price: 800.00, rating: 4.4, image: "/Project/images/black-forest.png" },
     { id: 2, name: "Red Velvet Cake", price: 950.00, rating: 4.7, image: "./images/red-velvet.png" },
     { id: 3, name: "Cheesecake", price: 1000.00, rating: 4.5, image: "./images/cheesecake.png" },
     { id: 4, name: "Chocolate Pastry", price: 350.00, rating: 3.9, image: "./images/chocolate-pastry.png" },
