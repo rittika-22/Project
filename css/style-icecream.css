@@ -1,0 +1,164 @@
+/* Custom styles for the Ice Cream page */
+
+/* Hero Section Background */
+
+.icecream-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/icecream-hero.jpg') no-repeat center center/cover;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Carousel Styles */
+#reviews-carousel {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.review-card-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .review-card-item {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .review-card-item {
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+    }
+}
+
+.review-card-item .bg-white {
+    height: 100%;
+}
+
+/* Modal Styles */
+/* REMOVED: display: none; from here. Visibility will be handled by JavaScript and Tailwind's 'hidden' class */
+
+
+.modal-content {
+    animation: fadeInDown 0.5s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Employee Login Modal */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    animation-name: fadeInDown;
+    animation-duration: 0.5s;
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #4B5563; /* Gray-700 */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4B5563; /* Gray-700 */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #D1D5DB; /* Gray-300 */
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #F59E0B; /* Amber-500 */
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #F97316; /* Orange-500 */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: #EA580C; /* Orange-600 */
+    transform: translateY(-2px);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #9CA3AF; /* Gray-400 */
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #EF4444; /* Red-500 */
+}
+
+.error-message {
+    color: #EF4444; /* Red-500 */
+    text-align: center;
+    margin-top: 10px;
+}

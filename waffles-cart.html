@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Oasis - Your Waffle Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/waffles.css"> <!-- Reusing waffles.css for general styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-stone-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-amber-800 text-white p-4 shadow-lg w-full">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold rounded-md p-2 hover:text-amber-300 transition duration-300">Desert Oasis</a>
+            <div class="space-x-4">
+                <a href="index.html#home" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Home</a>
+                <a href="index.html#food-items" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Delights</a>
+                <a href="waffles.html" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Waffles</a>
+                <a href="#" id="employeeSectorLink" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Employee Sector</a>
+                <a id="view-cart" href="waffles-cart.html" class="hover:text-amber-300 transition duration-300 rounded-md p-2 relative">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Order Summary Header - Matches ice cream cart layout -->
+        <div class="bg-amber-700 text-white p-6 rounded-xl shadow-md flex flex-col md:flex-row justify-between items-center mb-10">
+            <h1 class="text-4xl font-bold mb-4 md:mb-0">Your Order</h1>
+            <div class="flex items-center space-x-4">
+                <h2 class="text-2xl font-bold">Total:</h2>
+                <span id="cart-total" class="text-2xl font-bold text-orange-200">Tk 0.00</span>
+                <button id="back-to-shop-button" class="bg-white text-amber-800 font-semibold py-2 px-4 rounded-full shadow-md hover:bg-amber-100 transition-colors">Back to Shop</button>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md border border-amber-200">
+            <ul id="cart-items" class="space-y-4">
+                <!-- Cart items will be loaded here by JavaScript -->
+            </ul>
+            <!-- Removed empty cart message, as per ice cream cart design -->
+            
+            <div class="mt-8 flex justify-center">
+                <button id="checkout-button" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-10 rounded-full shadow-md transition-colors text-lg">Proceed to Checkout</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-amber-900 text-white py-6 mt-8 rounded-t-lg">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Desert Oasis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Simple confirmation modal for checkout/clear cart actions -->
+    <div id="action-confirmation-modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-[1001] hidden">
+        <div class="modal-content relative mx-auto p-5 border w-80 shadow-lg rounded-md bg-white text-center">
+            <div class="modal-header flex justify-end pb-3">
+                <span class="close-button text-gray-500 hover:text-gray-800 text-2xl font-bold cursor-pointer">&times;</span>
+            </div>
+            <div class="modal-body py-4">
+                <i class="fas fa-info-circle text-blue-500 text-5xl mb-4"></i>
+                <p class="text-xl font-semibold text-blue-700" id="confirmation-title">Action Confirmed</p>
+                <p class="mt-2 text-gray-600" id="confirmation-message">Your action was successful.</p>
+            </div>
+            <div class="modal-footer pt-4 border-t border-gray-200">
+                <button class="close-button w-full bg-amber-500 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:bg-amber-600 transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            let cart = JSON.parse(sessionStorage.getItem('waffleCart')) || []; // Load waffle cart
+            const cartItemsUl = document.getElementById('cart-items');
+            const cartTotalSpan = document.getElementById('cart-total');
+            const checkoutButton = document.getElementById('checkout-button');
+            const backToShopButton = document.getElementById('back-to-shop-button'); // New button element
+            
+            const actionConfirmationModal = document.getElementById('action-confirmation-modal');
+            const confirmationTitle = document.getElementById('confirmation-title');
+            const confirmationMessage = document.getElementById('confirmation-message');
+            const closeButtons = document.querySelectorAll('.close-button');
+
+
+            function updateCartDisplay() {
+                cartItemsUl.innerHTML = '';
+                let total = 0;
+
+                if (cart.length === 0) {
+                    // Display a message if cart is empty, similar to ice cream cart, but without a dedicated <p> tag
+                    cartItemsUl.innerHTML = '<li class="text-gray-500 text-center py-4">Your waffle cart is empty.</li>';
+                } else {
+                    cart.forEach((item, index) => {
+                        const li = document.createElement('li');
+                        li.className = 'flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm';
+                        li.innerHTML = `
+                            <div class="flex items-center space-x-3">
+                                <img src="${item.imageSrc}" onerror="this.onerror=null;this.src='https://placehold.co/50x50/FFF/000?text=Waffle';" alt="${item.name}" class="w-12 h-12 rounded-md object-cover">
+                                <div>
+                                    <p class="font-semibold text-amber-900">${item.name}</p>
+                                    <p class="text-sm text-gray-600">Tk ${item.price.toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button data-index="${index}" class="decrease-quantity-btn bg-gray-200 hover:bg-gray-300 text-gray-800 px-2 py-1 rounded-md text-sm">-</button>
+                                <span class="font-medium">${item.quantity}</span>
+                                <button data-index="${index}" class="increase-quantity-btn bg-gray-200 hover:bg-gray-300 text-gray-800 px-2 py-1 rounded-md text-sm">+</button>
+                                <button data-index="${index}" class="remove-item-btn bg-red-400 hover:bg-red-500 text-white p-2 rounded-md text-sm ml-2">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        `;
+                        cartItemsUl.appendChild(li);
+                        total += item.price * item.quantity;
+                    });
+                }
+                cartTotalSpan.textContent = `Tk ${total.toFixed(2)}`;
+                sessionStorage.setItem('waffleCart', JSON.stringify(cart)); // Save updated cart
+
+                attachCartItemListeners();
+            }
+
+            function attachCartItemListeners() {
+                document.querySelectorAll('.decrease-quantity-btn').forEach(button => {
+                    button.onclick = (e) => {
+                        const index = e.target.dataset.index;
+                        if (cart[index].quantity > 1) {
+                            cart[index].quantity--;
+                            updateCartDisplay();
+                        } else {
+                            // If quantity becomes 0, remove item
+                            cart.splice(index, 1);
+                            updateCartDisplay();
+                        }
+                    };
+                });
+
+                document.querySelectorAll('.increase-quantity-btn').forEach(button => {
+                    button.onclick = (e) => {
+                        const index = e.target.dataset.index;
+                        cart[index].quantity++;
+                        updateCartDisplay();
+                    };
+                });
+
+                document.querySelectorAll('.remove-item-btn').forEach(button => {
+                    button.onclick = (e) => {
+                        const index = e.target.dataset.index;
+                        cart.splice(index, 1);
+                        updateCartDisplay();
+                    };
+                });
+            }
+
+            // Removed clearCartButton event listener as per request
+
+            checkoutButton.addEventListener('click', () => {
+                if (cart.length > 0) {
+                    showConfirmationModal("Order Placed! 🎉", "Your order has been placed successfully. Redirecting to home page...");
+                    cart = []; // Clear cart after checkout
+                    updateCartDisplay();
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; 
+                    }, 2000); // 2-second delay
+                } else {
+                    showConfirmationModal("Cart Empty", "Your cart is empty. Please add some waffles before checking out.");
+                }
+            });
+
+            // Added event listener for Back to Shop button
+            backToShopButton.addEventListener('click', () => {
+                window.location.href = 'waffles.html'; // Redirect to the waffles page
+            });
+
+            function showConfirmationModal(title, message) {
+                confirmationTitle.textContent = title;
+                confirmationMessage.textContent = message;
+                actionConfirmationModal.classList.remove('hidden');
+            }
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    actionConfirmationModal.classList.add('hidden');
+                });
+            });
+
+            updateCartDisplay(); // Initial display
+        });
+    </script>
+</body>
+
+</html>

@@ -160,7 +160,7 @@ loginForm.addEventListener('submit', function (e) {
         messageBox.textContent = 'Login successful! Redirecting...';
 
         setTimeout(() => {
-            window.location.href = 'sweet-card-emp.html';
+            window.location.href = 'platformPage.html';
         }, 1500);
     } else {
         messageBox.classList.remove('bg-green-100', 'text-green-800', 'hidden');

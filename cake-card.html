@@ -7,149 +7,134 @@
   <!-- Bootstrap & FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Custom Cake Styles -->
-  <link rel="stylesheet" href="./css/style-cake.css">
+  <link rel="stylesheet" href="/Project/css/style-cake.css">
 </head>
 <body>
-  <div id="cakeApp">
+  <div id="app">
+
     <!-- Shop Page -->
-    <div id="cakeShopPage" class="active-page">
-      <nav class="navbar navbar-expand-lg custom-navbar">
-        <div class="container-fluid">
-          <a class="navbar-brand text-white fw-bold fs-2" href="#">Cake & Pastry</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#cakeNavbarNav">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="cakeNavbarNav">
-            <ul class="navbar-nav me-3">
-              <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link text-white fw-bold" href="#cake-section">Cakes</a></li>
-              <li class="nav-item"><a class="nav-link text-white fw-bold" href="#pastry-section">Pastries</a></li>
-            </ul>
-            <button id="cakeCartButton" class="btn btn-lg text-white position-relative">
-              <i class="fa-solid fa-cart-shopping fs-4"></i>
-              <sup id="cakeCartCount" class="cart-badge">0</sup><a href="orderpage.html"></a>
-            </button>
-          </div>
-        </div>
+    <div id="cake-shop-page" class="active-page">
+      <nav class="bg-lightblue text-white display-5 p-4 d-flex justify-content-between align-items-center fw-bold">
+        <h1 class="text-white display-2">Welcome to Cake & Pastry</h1>
+        <button id="cart-button" class="btn btn-lg text-white border-4 p-2 border-danger bg-green hover-effect">
+          Go to Cart <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        
       </nav>
 
       <div class="card-container container mt-4">
         <div class="search-bar mb-4">
           <input type="text" id="cakeSearchInput" class="form-control" placeholder="Search for cakes or pastries...">
         </div>
-        <div class="cards-item" id="cakeItemCards">
-          <!-- Cakes -->
-          <div class="row">
-            <h3 id="cake-section" class="section-title">Cake Section</h3>
+        <div class="cards-item row" id="itemCardsContainer">
 
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="chocolate cake">
-              <div class="card h-100 item-card card-custom-border">
-                <img src="./images/chocolate-cake.jpg" class="card-img-top" alt="Chocolate Cake">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title card-title-custom fw-bold">Chocolate Cake</h5>
-                  <p class="card-text text-muted">Price: 800 Tk</p>
-                  <div class="star-rating text-lg">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    <i class="far fa-star"></i> (4.4)
-                  </div>
-                  <button class="btn btn-custom-mid-brown mt-auto cakeOrderBtn" data-item-id="1">Order</button>
+          <!-- Cake 1 -->
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="black forest cake">
+            <div class="card h-100 item-card card-custom-border">
+              <img src="./images/black-forest.png" class="card-img-top" alt="Black Forest">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title card-title-custom fw-bold">Black Forest Cake</h5>
+                <p class="card-text text-muted">Price: 800 Tk</p>
+                <div class="star-rating text-lg">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                  <i class="far fa-star"></i> (4.4)
                 </div>
-              </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="red velvet cake">
-              <div class="card h-100 item-card card-custom-border">
-                <img src="./images/red-velbat-kitkat-cake.jpg" class="card-img-top" alt="Red Velvet Cake">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title card-title-custom fw-bold">Red Velvet Cake</h5>
-                  <p class="card-text text-muted">Price: 950 Tk</p>
-                  <div class="star-rating text-lg">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="far fa-star"></i> (4.7)
-                  </div>
-                  <button class="btn btn-custom-mid-brown mt-auto cakeOrderBtn" data-item-id="2">Order</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="black forest cake">
-              <div class="card h-100 item-card card-custom-border">
-                <img src="./images/black-forest-cake.JPG" class="card-img-top" alt="Black Forest Cake">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title card-title-custom fw-bold">Black Forest Cake</h5>
-                  <p class="card-text text-muted">Price: 1000 Tk</p>
-                  <div class="star-rating text-lg">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    <i class="far fa-star"></i> (4.5)
-                  </div>
-                  <button class="btn btn-custom-mid-brown mt-auto cakeOrderBtn" data-item-id="3">Order</button>
-                </div>
+                <button class="btn btn-custom-mid-brown mt-auto order-btn" data-item-id="1">Order</button>
               </div>
             </div>
           </div>
 
-          <!-- Pastries -->
-          <div class="row">
-            <h3 id="pastry-section" class="section-title">Pastry Section</h3>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="chocolate pastry">
-              <div class="card h-100 item-card card-custom-border">
-                <img src="./images/choco-pastry.jpeg" class="card-img-top" alt="Chocolate Pastry">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title card-title-custom fw-bold">Chocolate Pastry</h5>
-                  <p class="card-text text-muted">Price: 350 Tk</p>
-                  <div class="star-rating text-lg">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="far fa-star"></i>
-                    <i class="far fa-star"></i> (3.9)
-                  </div>
-                  <button class="btn btn-custom-mid-brown mt-auto cakeOrderBtn" data-item-id="4">Order</button>
+          <!-- Cake 2 -->
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="red velvet cake">
+            <div class="card h-100 item-card card-custom-border">
+              <img src="./images/red-velvet.png" class="card-img-top" alt="Red Velvet">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title card-title-custom fw-bold">Red Velvet Cake</h5>
+                <p class="card-text text-muted">Price: 950 Tk</p>
+                <div class="star-rating text-lg">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="far fa-star"></i> (4.7)
                 </div>
+                <button class="btn btn-custom-mid-brown mt-auto order-btn" data-item-id="2">Order</button>
               </div>
             </div>
+          </div>
 
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="strawberry shortcake">
-              <div class="card h-100 item-card card-custom-border">
-                <img src="./images/strawberry.jpg" class="card-img-top" alt="Strawberry Shortcake">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title card-title-custom fw-bold">Strawberry Shortcake</h5>
-                  <p class="card-text text-muted">Price: 900 Tk</p>
-                  <div class="star-rating text-lg">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="far fa-star"></i> (4.8)
-                  </div>
-                  <button class="btn btn-custom-mid-brown mt-auto cakeOrderBtn" data-item-id="5">Order</button>
+          <!-- Cake 3 -->
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="cheesecake">
+            <div class="card h-100 item-card card-custom-border">
+              <img src="./images/cheesecake.png" class="card-img-top" alt="Cheesecake">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title card-title-custom fw-bold">Cheesecake</h5>
+                <p class="card-text text-muted">Price: 1000 Tk</p>
+                <div class="star-rating text-lg">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                  <i class="far fa-star"></i> (4.5)
                 </div>
+                <button class="btn btn-custom-mid-brown mt-auto order-btn" data-item-id="3">Order</button>
               </div>
             </div>
+          </div>
 
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="fruit tart">
-              <div class="card h-100 item-card card-custom-border">
-                <img src="./images/fruit-tart.jpg" class="card-img-top" alt="Fruit Tart">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title card-title-custom fw-bold">Fruit Tart</h5>
-                  <p class="card-text text-muted">Price: 600 Tk</p>
-                  <div class="star-rating text-lg">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    <i class="far fa-star"></i> (4.3)
-                  </div>
-                  <button class="btn btn-custom-mid-brown mt-auto cakeOrderBtn" data-item-id="6">Order</button>
+          <!-- Cake 4 -->
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="chocolate pastry">
+            <div class="card h-100 item-card card-custom-border">
+              <img src="./images/chocolate-pastry.png" class="card-img-top" alt="Chocolate Pastry">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title card-title-custom fw-bold">Chocolate Pastry</h5>
+                <p class="card-text text-muted">Price: 350 Tk</p>
+                <div class="star-rating text-lg">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="far fa-star"></i>
+                  <i class="far fa-star"></i> (3.9)
                 </div>
+                <button class="btn btn-custom-mid-brown mt-auto order-btn" data-item-id="4">Order</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cake 5 -->
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="strawberry shortcake">
+            <div class="card h-100 item-card card-custom-border">
+              <img src="./images/strawberry-shortcake.png" class="card-img-top" alt="Strawberry Shortcake">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title card-title-custom fw-bold">Strawberry Shortcake</h5>
+                <p class="card-text text-muted">Price: 900 Tk</p>
+                <div class="star-rating text-lg">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="far fa-star"></i> (4.8)
+                </div>
+                <button class="btn btn-custom-mid-brown mt-auto order-btn" data-item-id="5">Order</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cake 6 -->
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 dessert-card" data-name="fruit tart">
+            <div class="card h-100 item-card card-custom-border">
+              <img src="./images/fruit-tart.png" class="card-img-top" alt="Fruit Tart">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title card-title-custom fw-bold">Fruit Tart</h5>
+                <p class="card-text text-muted">Price: 600 Tk</p>
+                <div class="star-rating text-lg">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                  <i class="far fa-star"></i> (4.3)
+                </div>
+                <button class="btn btn-custom-mid-brown mt-auto order-btn" data-item-id="6">Order</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div> <!-- /cakeShopPage -->
-  </div> <!-- /cakeApp -->
+    </div>
 
-  <!-- Scripts -->
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/index-cake.js"></script>
 </body>

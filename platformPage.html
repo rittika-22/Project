@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Delights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .bg-orange
+        {
+            background-color:#e48511;
+        }
+    </style>
+</head>
+
+<body class="bg-orange flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-8 tracking-tight">
+            Delights of Taste
+        </h1>
+        <p class="text-lg text-white mb-12 max-w-2xl mx-auto">
+            Explore our delicious collections and find your new favorite treat.
+        </p>
+
+        <!-- Container for the cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Sweet Section Card -->
+            <div id="sweets-card"
+                class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer p-6 sm:p-8 flex flex-col items-center text-center">
+                <img src="https://placehold.co/300x200/FEE2E2/B91C1C?text=Sweets" alt="Sweets Section"
+                    class="rounded-2xl mb-6 w-full object-cover">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Sweet Section</h2>
+                <p class="text-gray-500 text-sm">Discover a wide range of candies, chocolates, and other confectionery.
+                </p>
+            </div>
+
+            <!-- Ice Cream & Waffles Card -->
+            <div id="icecream-card"
+                class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer p-6 sm:p-8 flex flex-col items-center text-center">
+                <img src="https://placehold.co/300x200/DBEAFE/1E40AF?text=Ice+Cream+%26+Waffles"
+                    alt="Ice Cream & Waffles Section" class="rounded-2xl mb-6 w-full object-cover">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Ice Cream & Waffles</h2>
+                <p class="text-gray-500 text-sm">Chill out with our delicious ice creams and warm, crispy waffles.</p>
+            </div>
+
+            <!-- Cakes & Pastries Card -->
+            <div id="cakes-card"
+                class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer p-6 sm:p-8 flex flex-col items-center text-center">
+                <img src="https://placehold.co/300x200/F3E8FF/5B21B1?text=Cakes+%26+Pastries"
+                    alt="Cakes & Pastries Section" class="rounded-2xl mb-6 w-full object-cover">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Cakes & Pastries</h2>
+                <p class="text-gray-500 text-sm">Celebrate with our decadent cakes and delightful pastries.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('sweets-card').addEventListener('click', function () {
+            window.location.href = 'sweet-card-emp.html';
+        });
+
+        document.getElementById('icecream-card').addEventListener('click', function () {
+            window.location.href = 'ice-card-emp.html';
+        });
+
+        document.getElementById('cakes-card').addEventListener('click', function () {
+            window.location.href = 'cake-card-emp.html';
+        });
+    </script>
+
+</body>
+
+</html>
