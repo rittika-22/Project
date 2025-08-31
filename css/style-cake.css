@@ -200,38 +200,6 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-<<<<<<< HEAD
-/* ================= Login/Signup ================= */
-=======
-/* Login & Signup Styling */
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
-.login-box {
-  max-width: 400px;
-  background: #fffaf0;
-  border-radius: 12px;
-  margin: 50px auto;
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-}
-<<<<<<< HEAD
-=======
-
-/* Logout button */
-.logout-btn {
-  background-color: #dc3545;
-  color: white;
-  border-radius: 5px;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  background-color: #c82333;
-}
-
-
 /* ================= Login/Signup ================= */
 .login-box {
   max-width: 400px;
