@@ -1,8 +1,3 @@
-/* =============================================================
-   style-cake.css (Final Complete Version)
-   Combines all original styles + updated Cake-specific selectors
-   ============================================================= */
-
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fff8f0;
@@ -10,11 +5,7 @@ body {
   padding: 0;
 }
 
-<<<<<<< HEAD
 /* ================= Navbar ================= */
-=======
-/* ------------------- Navbar Custom ------------------- */
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
 .custom-navbar {
   background: linear-gradient(90deg, #ff7f50, #ff6347, #ff4500) !important;
   padding: 1rem 2rem;
@@ -34,7 +25,6 @@ body {
   color: #ffe4c4 !important;
 }
 
-<<<<<<< HEAD
 /* ================= Cart Button ================= */
 #cakeCartButton {
   color: white;
@@ -48,18 +38,6 @@ body {
   background-color: #45a049;
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-=======
-/* Cart count badge */
-.cart-badge {
-  background-color: #dc3545;
-  color: white;
-  border-radius: 50%;
-  font-size: 0.8rem;
-  padding: 0.2rem 0.4rem;
-  position: absolute;
-  top: -5px;
-  right: -5px;
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
 }
 
 /* Cart Count Badge */
@@ -91,17 +69,11 @@ body {
   box-shadow: 0 12px 25px rgba(0,0,0,0.15);
 }
 
-<<<<<<< HEAD
 .item-card img {
   height: 200px;
   object-fit: cover;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-=======
-.item-card img{
-  height: 200px;
-  object-fit: cover;
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
 }
 
 .card-title-custom {
@@ -113,21 +85,13 @@ body {
   color: #555;
 }
 
-<<<<<<< HEAD
 /* ================= Section Titles ================= */
-=======
-/* ------------------- Section Titles ------------------- */
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
 .section-title {
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
   color: #ff4500;
   margin: 2rem 0 1rem 0;
-<<<<<<< HEAD
-=======
-  padding-bottom: 0.5rem;
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
   border-bottom: 3px solid #ff7f50;
   display: inline-block;
   background: linear-gradient(90deg, #ffe4c4, #fff5e1);
@@ -136,11 +100,7 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-<<<<<<< HEAD
 /* ================= Stars ================= */
-=======
-/* ------------------- Star Ratings ------------------- */
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
 .star-rating i {
   color: #FFD700;
   margin-right: 2px;
@@ -272,12 +232,15 @@ body {
 }
 
 
-/* ------------------- Responsive ------------------- */
-@media (max-width: 768px) {
-  nav h1 {
-    font-size: 1.8rem;
-  }
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
+/* ================= Login/Signup ================= */
+.login-box {
+  max-width: 400px;
+  background: #fffaf0;
+  border-radius: 12px;
+  margin: 50px auto;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
 
 .login-box h3 {
   color: #ff4500;
@@ -312,10 +275,6 @@ body {
   .cakeOrderBtn {
     font-size: 0.9rem;
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> b993b5f74aeaa421d97cf9df6fa574f501712b79
   .order-page-card {
     flex-direction: column;
     align-items: flex-start;
