@@ -1,6 +1,9 @@
 // Load existing cart from localStorage
 let cart = JSON.parse(localStorage.getItem("cakeCart")) || [];
+const otherCartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
+// Use the spread operator to push all items from otherCartItems into the cart array
+cart.push(...otherCartItems);
 // Update cart count badge
 function updateCartCount() {
   const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);

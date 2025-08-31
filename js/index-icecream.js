@@ -1,7 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let cart = [];
+    try {
+        const storedCart = localStorage.getItem('cart');
+        if (storedCart) {
+            cart = JSON.parse(storedCart);
+        }
+    } catch (e) {
+        console.error("Failed to parse cart data from localStorage", e);
+    }
 
-    // --- Employee Panel Integration (NEW CODE) ---
-    // Check localStorage for employee-updated data.
     const updatedItems = localStorage.getItem('customerIceCreamItems');
 
     let iceCreamProducts;
@@ -10,7 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Use the data saved by the employee panel
         iceCreamProducts = JSON.parse(updatedItems);
         console.log('Using employee-updated ice cream data.');
-    } else {
+    }
+
+
+    // let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // //
+
+    // const updatedItems = localStorage.getItem('customerIceCreamItems');
+
+    // let iceCreamProducts;
+
+    // if (updatedItems) {
+    //     // Use the data saved by the employee panel
+    //     iceCreamProducts = JSON.parse(updatedItems);
+    //     console.log('Using employee-updated ice cream data.');
+    else {
         // Fallback to a default hardcoded list if no employee updates exist
         iceCreamProducts = [
             { "id": 1, "name": "Rainbow Icecream", "price": 450.00, "rating": 4.0, "image": "./images/icecream.png" },
@@ -31,12 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Ice cream grid container not found.');
             return;
         }
-        
+
         productGrid.innerHTML = ''; // Clear existing products
 
         products.forEach(product => {
             const productCard = document.createElement('div');
-            productCard.className = 'icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center h-full'; 
+            productCard.className = 'icecream-card d-flex flex-column justify-content-center align-items-center bg-white rounded shadow-md overflow-hidden border border-amber-200 text-center h-full';
             productCard.innerHTML = `
                 <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover">
                 <div class="p-3">
@@ -56,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productGrid.appendChild(productCard);
         });
     }
-    
+
     // Helper function to generate star rating HTML
     function generateStarRating(rating) {
         let stars = '';
@@ -85,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const name = event.target.dataset.name;
                 const price = parseFloat(event.target.dataset.price);
                 const imageSrc = event.target.dataset.imageSrc;
-                
+
                 addItemToCart(name, price, imageSrc);
                 showConfirmationModal();
             }
@@ -94,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial render of products and search bar functionality ---
     renderProducts(iceCreamProducts);
-    
+
     const searchInput = document.getElementById('ice-cream-search');
     const searchButton = document.getElementById('search-button');
 
@@ -122,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Cart functionality
-    let cart = JSON.parse(sessionStorage.getItem('iceCreamCart')) || [];
+    // let cart = JSON.parse(sessionStorage.getItem('iceCreamCart')) || [];
 
     const cartCountSpan = document.getElementById('cart-count');
     const cartModal = document.getElementById('cart-modal');
@@ -195,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         loginModal.classList.remove('hidden');
     });
-    
+
     // Close login modal with its close button
     loginCloseBtn.addEventListener('click', () => {
         loginModal.classList.add('hidden');

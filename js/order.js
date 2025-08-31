@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   let cart = JSON.parse(localStorage.getItem("cakeCart")) || [];
+  const otherCartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
+  // Use the spread operator to push all items from otherCartItems into the cart array
+  cart.push(...otherCartItems);
   function renderCart() {
     const container = document.getElementById("cakeCartItems");
     container.innerHTML = "";

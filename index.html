@@ -14,7 +14,11 @@
     <style>
         .bg-orange
         {
-            background-color: #e48511;
+            background-color: #701703;
+        }
+        .bg-button
+        {
+            background-color: #d13f1f;
         }
 
     </style>
@@ -40,7 +44,22 @@
             <div class="hidden lg:flex space-x-6">
                 <a href="#home" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Home</a>
                 <a href="#about" class="hover:text-amber-300 transition duration-300 rounded-md p-2">About</a>
-                <a href="#food-items" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Delights</a>
+                <a href="#food-items" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Delights
+                    <div id="delights-menu"
+                        class="lg:absolute lg:top-full lg:right-0 lg:mt-2 lg:bg-white lg:shadow-xl lg:rounded-xl lg:p-2 lg:z-50 lg:hidden group-hover:block transition-all duration-300 ease-in-out origin-top-right">
+                        <a href="#sweets"
+                            class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Sweets</a>
+                        <a href="#cakes"
+                            class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Cakes</a>
+                        <a href="#icecreams"
+                            class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Ice-creams</a>
+                        <a href="#waffles"
+                            class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Waffles</a>
+                        <a href="#pastries"
+                            class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Pastries</a>
+                    </div>
+                </a>
+                
                 <a href="#contact" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Contact</a>
                 <a href="#" onclick="showLoginModal()"
                     class="hover:text-amber-300 transition duration-300 rounded-md p-2">Employee Sector</a>
@@ -52,6 +71,19 @@
             <a href="#home" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Home</a>
             <a href="#about" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">About</a>
             <a href="#food-items" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Delights</a>
+            <!-- <div id="delights-menu"
+                class="lg:absolute lg:top-full lg:right-0 lg:mt-2 lg:bg-white lg:shadow-xl lg:rounded-xl lg:p-2 lg:z-50 lg:hidden group-hover:block transition-all duration-300 ease-in-out origin-top-right">
+                <a href="#sweets"
+                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Sweets</a>
+                <a href="#cakes"
+                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Cakes</a>
+                <a href="#icecreams"
+                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Ice-creams</a>
+                <a href="#waffles"
+                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Waffles</a>
+                <a href="#pastries"
+                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Pastries</a>
+            </div> -->
             <a href="#contact" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Contact</a>
             <a href="platformPage.html" onclick="showLoginModal()"
                 class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Employee Sector</a>
@@ -111,8 +143,8 @@
                                 class="fas fa-star"></i><i class="far fa-star"></i> (4.0)
                         </div>
                         <a href="icecream.html"
-                            class="inline-block px-4 py-2 bg-orange text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
-                            Icecream & Waffles Section
+                            class="inline-block px-4 py-2 bg-button text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
+                           View Details
                         </a>
                     </div>
                 </div>
@@ -130,8 +162,8 @@
                                 class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)
                         </div>
                         <a href="sweetCards.html"
-                            class="inline-block px-4 py-2 bg-orange text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
-                            Sweets Section
+                            class="inline-block px-4 py-2 bg-button text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
+                            View Details
                         </a>
                     </div>
                 </div>
@@ -149,7 +181,7 @@
                                 class="fas fa-star"></i><i class="fas fa-star"></i> (5.0)
                         </div>
                         <a href="./cake-card.html"
-                            class="inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
+                            class="inline-block px-4 py-2 bg-button text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
                             View Details
                         </a>
                     </div>
@@ -168,7 +200,7 @@
                                 class="fas fa-star-half-alt"></i><i class="far fa-star"></i> (3.5)
                         </div>
                         <a href="cake-card.html"
-                            class="inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
+                            class="inline-block px-4 py-2 bg-button text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
                             View Details
                         </a>
                     </div>
@@ -188,8 +220,8 @@
                                 class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)
                         </div>
                         <a href="waffles.html"
-                            class="inline-block px-4 py-2 bg-orange text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
-                            Icecream & Waffles Section
+                            class="inline-block px-4 py-2 bg-button text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
+                            View Details
                         </a>
                     </div>
                 </div>
@@ -208,8 +240,8 @@
                                 class="fas fa-star"></i><i class="fas fa-star"></i> (5.0)
                         </div>
                         <a href="sweetCards.html"
-                            class="inline-block px-4 py-2 bg-orange text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
-                            Sweets Section
+                            class="inline-block px-4 py-2 bg-button text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors ">
+                            View Details
                         </a>
                     </div>
                 </div>
@@ -406,8 +438,8 @@
                 Join our community of desert enthusiasts and receive exclusive content and updates.
             </p>
             <a href="#contact"
-                class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
-                Get Involved Now
+               >
+            <a href="login.html"  class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">Get Involved Now</a>    
             </a>
         </div>
     </section>

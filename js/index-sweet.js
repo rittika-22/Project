@@ -221,7 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Profile icon click to go to order page
     profileIcon.addEventListener('click', () => {
-        showPage('order-page');
+        // showPage('order.html');
+        window.location.href = "order.html";
     });
 
     // Back to shop button click
