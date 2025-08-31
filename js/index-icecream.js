@@ -36,29 +36,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         products.forEach(product => {
             const productCard = document.createElement('div');
-            productCard.className = 'icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center';
+            productCard.className = 'icecream-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center h-full'; 
             productCard.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
-                <div class="p-6">
+                <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover">
+                <div class="p-3">
                     <h3 class="text-xl font-semibold text-amber-900 mb-2">${product.name}</h3>
                     <p class="text-gray-700 text-md font-medium mb-3">Price: Tk ${product.price.toFixed(2)}</p>
-                    <p class="text-gray-600 text-sm mb-3">${product.description || 'A delicious and refreshing ice cream flavor.'}</p>
                     <div class="star-rating text-lg">
                         ${generateStarRating(product.rating)}
                     </div>
-                    <button class="add-to-cart inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                            data-name="${product.name}" 
-                            data-price="${product.price}" 
-                            data-image-src="${product.image}"> 
+                    <button class="add-to-cart-btn inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
+                                data-name="${product.name}" 
+                                data-price="${product.price}" 
+                                data-image-src="${product.image}"> 
                         Add to Cart
                     </button>
                 </div>
             `;
             productGrid.appendChild(productCard);
         });
-
-        // Re-attach event listeners to the new buttons
-        attachAddToCartListeners();
     }
     
     // Helper function to generate star rating HTML
@@ -80,26 +76,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${stars} (${rating.toFixed(1)})`;
     }
 
-    // --- NEW: Function to attach add-to-cart listeners ---
-    function attachAddToCartListeners() {
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', (event) => {
+
+    // --- Event Delegation for Add to Cart Buttons ---
+    const productGrid = document.getElementById('ice-cream-grid');
+    if (productGrid) {
+        productGrid.addEventListener('click', (event) => {
+            if (event.target.classList.contains('add-to-cart-btn')) {
                 const name = event.target.dataset.name;
                 const price = parseFloat(event.target.dataset.price);
                 const imageSrc = event.target.dataset.imageSrc;
-                const existingItem = cart.find(item => item.name === name);
-                if (existingItem) {
-                    existingItem.quantity++;
-                } else {
-                    cart.push({ name, price, imageSrc, quantity: 1 });
-                }
-                saveCart();
+                
+                addItemToCart(name, price, imageSrc);
                 showConfirmationModal();
-            });
+            }
         });
     }
 
-    // --- NEW: Initial render of products and search bar functionality ---
+    // --- Initial render of products and search bar functionality ---
     renderProducts(iceCreamProducts);
     
     const searchInput = document.getElementById('ice-cream-search');
@@ -140,19 +133,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmationModal = document.getElementById('confirmation-modal');
     const goToCartButton = confirmationModal.querySelector('.go-to-cart-button');
 
-    // Login Modal Elements
-    const employeeSectorLink = document.getElementById('employeeSectorLink');
-    const loginModal = document.getElementById('loginModal');
-    const loginForm = document.getElementById('loginForm');
-    const loginMessage = document.getElementById('loginMessage');
-    const employeeIdInput = document.getElementById('employeeId');
-    const passwordInput = document.getElementById('password');
-    const loginCloseBtn = loginModal.querySelector('.close-btn');
+    // Add item to cart function
+    function addItemToCart(name, price, imageSrc) {
+        const existingItem = cart.find(item => item.name === name);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({ name, price, imageSrc, quantity: 1 });
+        }
+        saveCart();
+    }
 
     // Update cart count display
     function updateCartCount() {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCountSpan.textContent = totalItems;
+        if (cartCountSpan) {
+            cartCountSpan.textContent = totalItems;
+        }
     }
 
     // Save cart to session storage
@@ -163,9 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show confirmation modal
     function showConfirmationModal() {
-        confirmationModal.classList.remove('hidden');
-        confirmationModal.querySelector('.modal-content').classList.add('scale-100', 'opacity-100');
-        confirmationModal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
+        if (confirmationModal) {
+            confirmationModal.classList.remove('hidden');
+        }
     }
 
     // Hide modals when their specific close button is clicked
@@ -174,8 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const parentModal = button.closest('.modal');
             if (parentModal) {
                 parentModal.classList.add('hidden');
-                parentModal.querySelector('.modal-content').classList.remove('scale-100', 'opacity-100');
-                parentModal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
             }
         });
     });
@@ -188,6 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Employee Sector Login: This is the ONLY part that handles the login modal ---
+    const employeeSectorLink = document.getElementById('employeeSectorLink');
+    const loginModal = document.getElementById('loginModal');
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
+    const employeeIdInput = document.getElementById('employeeId');
+    const passwordInput = document.getElementById('password');
+    const loginCloseBtn = loginModal.querySelector('.close-btn');
+
     employeeSectorLink.addEventListener('click', (event) => {
         event.preventDefault();
         loginModal.classList.remove('hidden');
@@ -220,30 +223,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial cart count update
     updateCartCount();
 
-    // Carousel functionality
-    const reviewsCarousel = document.getElementById('reviews-carousel');
-    const prevReviewButton = document.getElementById('prev-review');
-    const nextReviewButton = document.getElementById('next-review');
-    const reviewCards = reviewsCarousel ? reviewsCarousel.querySelectorAll('.review-card-item') : [];
-    let currentIndex = 0;
-
-    if (reviewsCarousel && prevReviewButton && nextReviewButton && reviewCards.length > 0) {
-        const showReview = (index) => {
-            reviewsCarousel.style.transform = `translateX(-${index * 100}%)`;
-        };
-
-        prevReviewButton.addEventListener('click', () => {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : reviewCards.length - 1;
-            showReview(currentIndex);
-        });
-
-        nextReviewButton.addEventListener('click', () => {
-            currentIndex = (currentIndex < reviewCards.length - 1) ? currentIndex + 1 : 0;
-            showReview(currentIndex);
-        });
-
-        showReview(currentIndex);
-    } else {
-        console.warn("Reviews carousel elements not found. Carousel functionality might be disabled.");
-    }
 });

@@ -1,78 +1,90 @@
-/* Custom styles for waffles.html */
+/* Custom styles for the Waffles page */
 
-/* Font Family */
+/* --- General & Global Styles --- */
+
+/* Body and overall layout */
 body {
+    background-color: #fcf8f6; /* Off-white, creamy background for a unified look */
     font-family: 'Inter', sans-serif;
-}
-
-/* Smooth Scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Hero Section Specific Styles */
-.waffles-hero {
-    position: relative;
-    height: 80vh; /* Adjust height as needed */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-image: url('../images/waffle-hero.jpg'); /* Placeholder image */
-    background-size: cover;
-    background-position: center;
-    color: #fff; /* Ensure text is readable */
-}
-
-.waffles-hero::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4); /* Dark overlay for text readability */
-    z-index: 1;
-}
-
-.waffles-hero .hero-content {
-    position: relative;
-    z-index: 2;
-    padding-top: 5rem; /* Space for fixed nav */
-}
-
-/* Review Carousel Styling - Ensure items are side-by-side */
-#reviews-carousel {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-
-/* Each review card should take up the full width for mobile, 1/3 for larger screens */
-.review-card-item {
-    flex: 0 0 100%; /* Default to full width on small screens */
-    max-width: 100%;
-}
-
-@media (min-width: 1024px) { /* Adjust for larger screens (lg breakpoint in Tailwind) */
-    .review-card-item {
-        flex: 0 0 33.33%; /* Show 3 cards at once */
-        max-width: 33.33%;
-    }
-}
-
-/* Modal Styling */
-.modal {
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-}
-
-.modal-content {
-    /* Tailwind classes handle most of the styling,
-       but this ensures transition effects are smooth */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    color: #4B5563; /* General text color */
 }
 
 /* Star rating colors */
-.star-rating .fas.fa-star,
-.star-rating .fas.fa-star-half-alt {
-    color: #FFD700; /* Gold color for filled/half stars */
+.star-rating i {
+    color: yellow;
+}
+
+/* --- Navigation & Buttons --- */
+.bg-amber-800 {
+    background-color: #ff9800; /* Warm orange to match the sweets page header */
+}
+
+/* Gray button for employee sector */
+.bg-gray-500 {
+    background-color: #6b7280; 
+}
+
+/* Red cart button from the "Sweets" page */
+.bg-blue-500 {
+    background-color: #ef4444; 
+}
+
+/* --- Main Content Sections --- */
+
+/* This section has the same creamy background as the body to create a seamless look */
+.main-content-container {
+    background-color: #fcf8f6; /* Lighter, creamy background */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Search bar styling */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem; /* Adds space between the search bar and product grid */
+    background-color: transparent; /* Makes the search bar container background transparent */
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.search-container .relative {
+    position: relative;
+    width: 100%;
+    max-width: 480px; 
+    padding: 0.5rem;
+    background-color: white; /* The search bar input area has a white background */
+    border-radius: 9999px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow on the search bar */
+}
+
+.search-container input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1.25rem;
+    border: 1px solid #D1D5DB; /* Lighter border color */
+    border-radius: 9999px;
+    box-shadow: none; 
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.5);
+}
+
+.search-container button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 1.5rem; 
+    color: #6b7280;
+    transition: color 0.3s;
+}
+
+.search-container button:hover {
+    color: #f59e0b;
 }
