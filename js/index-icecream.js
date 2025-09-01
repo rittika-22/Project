@@ -27,6 +27,12 @@ let cart = [];
             { "id": 4, "name": "Strawberry Swirl", "price": 425.00, "rating": 3.5, "image": "./images/strawberry.jpg" },
             { "id": 5, "name": "Vanilla Bean", "price": 380.00, "rating": 4.5, "image": "./images/vanilla.jpg" },
             { "id": 6, "name": "Cookie Dough", "price": 530.00, "rating": 5.0, "image": "./images/cookie-dough.jpg" },
+            { "id": 7, "name": "Pistachio Almond", "price": 550.00, "rating": 4.8, "image": "./images/Pistachio Almond.jpg" },
+            { "id": 8, "name": "Salted Caramel", "price": 510.00, "rating": 4.6, "image": "./images/Salted Caramel.jpg" },
+            { "id": 9, "name": "Mango Tango", "price": 480.00, "rating": 4.2, "image": "./images/Mango Tango.webp" },
+            { "id": 10, "name": "Coffee Blast", "price": 490.00, "rating": 4.7, "image": "./images/Coffee Blast.jpg" },
+            { "id": 11, "name": "Black Cherry", "price": 520.00, "rating": 4.9, "image": "./images/Black Cherry.jpg" },
+            { "id": 12, "name": "Lemon Sorbet", "price": 410.00, "rating": 4.3, "image": "./images/Lemon Sorbet.jpg" }
         ];
         console.log('Using default hardcoded ice cream data.');
     }
@@ -44,7 +50,7 @@ let cart = [];
 
         products.forEach(product => {
             const productCard = document.createElement('div');
-            productCard.className = 'icecream-card d-flex flex-column justify-content-center align-items-center bg-white rounded shadow-md overflow-hidden border border-amber-200 text-center h-full';
+            productCard.className = 'icecream-card d-flex flex-column justify-content-center align-items-center bg-white rounded shadow-md overflow-hidden card-custom-border text-center h-full';
             productCard.innerHTML = `
                 <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover">
                 <div class="p-3">
@@ -64,6 +70,8 @@ let cart = [];
             productGrid.appendChild(productCard);
         });
     }
+
+
 
     // Helper function to generate star rating HTML
     function generateStarRating(rating) {
@@ -129,8 +137,6 @@ let cart = [];
     }
 
 
-    // Cart functionality
-    // let cart = JSON.parse(sessionStorage.getItem('iceCreamCart')) || [];
 
     const cartCountSpan = document.getElementById('cart-count');
     const cartModal = document.getElementById('cart-modal');
