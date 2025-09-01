@@ -21,7 +21,7 @@
             // Cake and Pastry data from cake-card.html
             let items = [
                 { "id": 1, "name": "Chocolate Cake", "price": 800.00, "rating": 4.4, "image": "./images/chocolate-cake.jpg" },
-                { "id": 2, "name": "Red Velvet Cake", "price": 950.00, "rating": 4.7, "image": "" },
+                { "id": 2, "name": "Red Velvet Cake", "price": 950.00, "rating": 4.7, "image": "./images/red-velbat-kitkat-cake.jpg" },
                 { "id": 3, "name": "Black Forest Cake", "price": 1000.00, "rating": 4.5, "image": "https://placehold.co/400x250/cccccc/333333?text=Black+Forest+Cake" },
                 { "id": 4, "name": "Chocolate Pastry", "price": 350.00, "rating": 3.9, "image": "https://placehold.co/400x250/cccccc/333333?text=Chocolate+Pastry" },
                 { "id": 5, "name": "Strawberry Shortcake", "price": 900.00, "rating": 4.8, "image": "https://placehold.co/400x250/cccccc/333333?text=Strawberry+Shortcake" },
