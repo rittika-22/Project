@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- END OF CHANGES ---
 
-    let cart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from localStorage or initialize empty // Load cart from localStorage or initialize empty
+    let cart = JSON.parse(localStorage.getItem('customerCart')) || [];// Load cart from localStorage or initialize empty // Load cart from localStorage or initialize empty
 
     /**
      * Renders the star rating HTML based on a given rating value.
@@ -103,37 +103,69 @@ document.addEventListener('DOMContentLoaded', () => {
      * Adds an item to the cart or increments its quantity.
      * @param {number} itemId - The ID of the item to add.
      */
+    // function addToCart(itemId) {
+    //     const existingItemIndex = cart.findIndex(cartItem => cartItem.id === itemId);
+    //     if (existingItemIndex > -1) {
+    //         cart[existingItemIndex].quantity++;
+    //     } else {
+    //         const itemToAdd = items.find(item => item.id === itemId);
+    //         if (itemToAdd) {
+    //             cart.push({ ...itemToAdd, quantity: 1 });
+    //         }
+    //     }
+    //     localStorage.setItem('customerCart', JSON.stringify(cart)); // Save cart to localStorage
+    //     alert(`${items.find(item => item.id === itemId).name} added to cart!`); // Simple confirmation
+    //     console.log('Cart:', cart);
+    // }
+
     function addToCart(itemId) {
-        const existingItemIndex = cart.findIndex(cartItem => cartItem.id === itemId);
-        if (existingItemIndex > -1) {
-            cart[existingItemIndex].quantity++;
-        } else {
-            const itemToAdd = items.find(item => item.id === itemId);
-            if (itemToAdd) {
-                cart.push({ ...itemToAdd, quantity: 1 });
-            }
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.id === itemId);
+    if (existingItemIndex > -1) {
+        cart[existingItemIndex].quantity++;
+    } else {
+        const itemToAdd = items.find(item => item.id === itemId);
+        if (itemToAdd) {
+            cart.push({ ...itemToAdd, quantity: 1 });
         }
-        localStorage.setItem('cart', JSON.stringify(cart)); // Save cart to localStorage
-        alert(`${items.find(item => item.id === itemId).name} added to cart!`); // Simple confirmation
-        console.log('Cart:', cart);
     }
+    // Save the unified cart to localStorage.
+    localStorage.setItem('customerCart', JSON.stringify(cart));
+    
+    alert(`${items.find(item => item.id === itemId).name} added to cart!`);
+    
+    // Log the unified cart from localStorage to confirm it's working.
+    console.log('Cart:', JSON.parse(localStorage.getItem('customerCart')));
+}
 
     /**
      * Updates the quantity of an item in the cart.
      * @param {number} itemId - The ID of the item to update.
      * @param {number} change - The amount to change the quantity by (+1 or -1).
      */
+    // function updateQuantity(itemId, change) {
+    //     const itemIndex = cart.findIndex(cartItem => cartItem.id === itemId);
+    //     if (itemIndex > -1) {
+    //         cart[itemIndex].quantity += change;
+    //         if (cart[itemIndex].quantity <= 0) {
+    //             cart.splice(itemIndex, 1); // Remove item if quantity is 0 or less
+    //         }
+    //         localStorage.setItem('cart', JSON.stringify(cart));
+    //         renderOrderPage(); // Re-render order page to reflect changes
+    //     }
+    // }
+
     function updateQuantity(itemId, change) {
-        const itemIndex = cart.findIndex(cartItem => cartItem.id === itemId);
-        if (itemIndex > -1) {
-            cart[itemIndex].quantity += change;
-            if (cart[itemIndex].quantity <= 0) {
-                cart.splice(itemIndex, 1); // Remove item if quantity is 0 or less
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            renderOrderPage(); // Re-render order page to reflect changes
-        }
+    const idx = cart.findIndex(i => i.id === itemId);
+    if (idx > -1) {
+        cart[idx].quantity = (cart[idx].quantity || 1) + change;
+        if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+        
+        // **CHANGE:** We now save to the unified cart key.
+        localStorage.setItem("customerCart", JSON.stringify(cart));
+        
+        renderOrderPage();
     }
+}
 
     /**
      * Calculates and displays the total bill.
@@ -231,18 +263,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Checkout button (for demonstration, just logs cart)
-    checkoutBtn.addEventListener('click', () => {
-        if (cart.length > 0) {
-            alert('Proceeding to checkout! Your order has been placed.');
-            console.log('Final Order:', cart);
-            cart = []; // Clear cart after checkout
-            localStorage.removeItem('cart'); // Clear localStorage
-            renderOrderPage(); // Update UI
-            showPage('shop-page'); // Go back to shop page
-        } else {
-            alert('Your cart is empty. Please add items before checking out.');
-        }
-    });
+    // checkoutBtn.addEventListener('click', () => {
+    //     if (cart.length > 0) {
+    //         alert('Proceeding to checkout! Your order has been placed.');
+    //         console.log('Final Order:', cart);
+    //         cart = []; // Clear cart after checkout
+    //         localStorage.removeItem('customerCart'); // Clear localStorage
+    //         renderOrderPage(); // Update UI
+    //         showPage('shop-page'); // Go back to shop page
+    //     } else {
+    //         alert('Your cart is empty. Please add items before checking out.');
+    //     }
+    // });
+
+    document.getElementById("checkoutBtn").addEventListener("click", () => {
+    if (cart.length > 0) {
+        alert('Proceeding to checkout! Your order has been placed.');
+        console.log('Final Order:', cart);
+        cart = []; // Clear cart after checkout
+        localStorage.removeItem('customerCart'); // Clear localStorage
+        renderOrderPage(); // Update UI
+        window.location.href = "cake-card.html"; // Go back to shop page
+    } else {
+        alert('Your cart is empty. Please add items before checking out.');
+    }
+});
 
     // Initial display of desserts when the page loads
     displayDesserts(items);

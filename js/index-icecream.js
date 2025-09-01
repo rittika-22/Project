@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let cart = [];
-    try {
-        const storedCart = localStorage.getItem('cart');
-        if (storedCart) {
-            cart = JSON.parse(storedCart);
+let cart = [];
+  try {
+    // Now we use localStorage with a unified key.
+      const storedCart = localStorage.getItem('customerCart'); 
+      if (storedCart) {
+        cart = JSON.parse(storedCart);
+       }
+      } catch (e) {
+        console.error("Failed to parse cart data from localStorage", e);
         }
-    } catch (e) {
-        console.error("Failed to parse cart data from localStorage", e);
-    }
 
     const updatedItems = localStorage.getItem('customerIceCreamItems');
 
@@ -17,21 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Use the data saved by the employee panel
         iceCreamProducts = JSON.parse(updatedItems);
         console.log('Using employee-updated ice cream data.');
-    }
-
-
-    // let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    // //
-
-    // const updatedItems = localStorage.getItem('customerIceCreamItems');
-
-    // let iceCreamProducts;
-
-    // if (updatedItems) {
-    //     // Use the data saved by the employee panel
-    //     iceCreamProducts = JSON.parse(updatedItems);
-    //     console.log('Using employee-updated ice cream data.');
-    else {
+    } else {
         // Fallback to a default hardcoded list if no employee updates exist
         iceCreamProducts = [
             { "id": 1, "name": "Rainbow Icecream", "price": 450.00, "rating": 4.0, "image": "./images/icecream.png" },
@@ -67,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${generateStarRating(product.rating)}
                     </div>
                     <button class="add-to-cart-btn inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="${product.name}" 
-                                data-price="${product.price}" 
-                                data-image-src="${product.image}"> 
+                                 data-name="${product.name}" 
+                                 data-price="${product.price}" 
+                                 data-image-src="${product.image}"> 
                         Add to Cart
                     </button>
                 </div>
@@ -153,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCartButton = document.getElementById('view-cart');
     const confirmationModal = document.getElementById('confirmation-modal');
     const goToCartButton = confirmationModal.querySelector('.go-to-cart-button');
+    
 
     // Add item to cart function
     function addItemToCart(name, price, imageSrc) {
@@ -175,9 +163,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Save cart to session storage
     function saveCart() {
-        sessionStorage.setItem('iceCreamCart', JSON.stringify(cart));
-        updateCartCount();
-    }
+    // Save the cart to the unified localStorage key.
+        localStorage.setItem('customerCart', JSON.stringify(cart));
+        updateCartCount();
+     }
+
+     
 
     // Show confirmation modal
     function showConfirmationModal() {
@@ -196,12 +187,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Go to cart button in confirmation modal
     if (goToCartButton) {
-        goToCartButton.addEventListener('click', () => {
-            window.location.href = 'cart.html';
-        });
-    }
+    goToCartButton.addEventListener('click', () => {
+        // Navigate to the order page to see all items together.
+        window.location.href = 'order.html'; 
+    });
+}
 
     // --- Employee Sector Login: This is the ONLY part that handles the login modal ---
     const employeeSectorLink = document.getElementById('employeeSectorLink');
@@ -243,5 +234,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial cart count update
     updateCartCount();
-
 });

@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // Login Check: Redirect to the main page if the user is not logged in.
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = 'index.html';
-        return; // Stop execution if not logged in
-    }
+    // if (localStorage.getItem('isLoggedIn') !== 'true') {
+    //     window.location.href = 'index.html';
+    //     return; // Stop execution if not logged in
+    // }
 
     const itemCardsContainer = document.getElementById('itemCardsContainer');
     const searchInput = document.getElementById('searchInput');

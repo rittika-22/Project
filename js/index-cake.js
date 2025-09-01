@@ -1,9 +1,12 @@
-// Load existing cart from localStorage
-let cart = JSON.parse(localStorage.getItem("cakeCart")) || [];
-const otherCartItems = JSON.parse(localStorage.getItem("cart")) || [];
+// Load the unified cart from localStorage.
+// This key will contain all items (cakes, sweets, ice cream).
+let cart = JSON.parse(localStorage.getItem("customerCart")) || [];
 
 // Use the spread operator to push all items from otherCartItems into the cart array
-cart.push(...otherCartItems);
+// This line is no longer necessary as all items will be saved under "customerCart"
+// const otherCartItems = JSON.parse(localStorage.getItem("cart")) || [];
+// cart.push(...otherCartItems);
+
 // Update cart count badge
 function updateCartCount() {
   const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
@@ -25,7 +28,8 @@ document.querySelectorAll(".cakeOrderBtn").forEach(btn => {
       cart.push({ id: itemId, name: itemName, price: price, quantity: 1 });
     }
 
-    localStorage.setItem("cakeCart", JSON.stringify(cart));
+    // This is the key change: now we save to the unified cart.
+    localStorage.setItem("customerCart", JSON.stringify(cart));
     updateCartCount();
 
     btn.textContent = "Added!";
@@ -49,7 +53,8 @@ document.getElementById("cakeSearchInput").addEventListener("input", (e) => {
     const name = card.dataset.name.toLowerCase();
     card.style.display = name.includes(query) ? "block" : "none";
   });
-});
-
+  
 // Initialize
 updateCartCount();
+});
+
