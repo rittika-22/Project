@@ -229,13 +229,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentWaffles.length === 0) {
             // Fallback to default if no employee items and no customer items
             const defaultWaffles = [
-                { "id": 1, "name": "Classic Waffle", "price": 350.00, "rating": 4.7, "image": "./images/classicwaffle.jpg" },
-                { "id": 2, "name": "Chocolate Chip Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-chocolate.jpg" },
-                { "id": 3, "name": "Blueberry Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-blueberry.jpg" },
-                { "id": 4, "name": "Strawberry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-strawberry.jpg" },
-                { "id": 5, "name": "Red Velvet Waffle", "price": 420.00, "rating": 4.9, "image": "./images/waffle-redvelvet.jpg" },
-                { "id": 6, "name": "Cinnamon Roll Waffle", "price": 410.00, "rating": 4.7, "image": "./images/waffle-cinnamon.jpg" }
-            ];
+            { "id": 1, "name": "Classic Waffle", "price": 350.00, "rating": 4.7, "image": "./images/classicwaffle.jpg" },
+            { "id": 2, "name": "Chocolate Chip Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-chocolate.jpg" },
+            { "id": 3, "name": "Blueberry Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-blueberry.jpg" },
+            { "id": 4, "name": "Strawberry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-strawberry.jpg" },
+            { "id": 5, "name": "Red Velvet Waffle", "price": 420.00, "rating": 4.9, "image": "./images/waffle-redvelvet.jpg" },
+            { "id": 6, "name": "Cinnamon Roll Waffle", "price": 410.00, "rating": 4.7, "image": "./images/waffle-cinnamon.jpg" },
+            { "id": 7, "name": "Banana Nut Waffle", "price": 370.00, "rating": 4.5, "image": "./images/waffle-banana.jpg" },
+            { "id": 8, "name": "Pumpkin Spice Waffle", "price": 380.00, "rating": 4.3, "image": "./images/waffle-pumpkin.webp" },
+            { "id": 9, "name": "Lemon Berry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-lemon.jpeg" },
+            { "id": 10, "name": "Caramel Drizzle Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-caramel.jpeg" },
+            { "id": 11, "name": "S'mores Waffle", "price": 430.00, "rating": 4.9, "image": "./images/waffle-smores.webp" },
+            { "id": 12, "name": "Apple Pie Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-apple.jpg" }
+        ];
+
             currentWaffles = loadWafflesFromStorage('customerWaffleItems');
             if (currentWaffles.length === 0) { // If customer items are also empty, use the hardcoded defaults
                 currentWaffles = defaultWaffles;

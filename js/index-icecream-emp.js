@@ -27,12 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ice Cream data (initial data for employees to manage)
     // This initial data will only be used if 'iceCreamItems' in localStorage is empty
     let items = [
-        { "id": 1, "name": "Rainbow Icecream", "price": 450.00, "rating": 4.0, "image": "./images/icecream.png" },
-        { "id": 2, "name": "Chocolate Fudge", "price": 500.00, "rating": 4.8, "image": "./images/chocolate-fudge.jpg" },
-        { "id": 3, "name": "Mint Chocolate Chip", "price": 475.00, "rating": 4.5, "image": "./images/mint-chip.jpg" },
-        { "id": 4, "name": "Strawberry Delight", "price": 450.00, "rating": 4.2, "image": "./images/strawberry.jpg" },
-        { "id": 5, "name": "Vanilla Bean", "price": 420.00, "rating": 4.0, "image": "./images/vanilla.jpg" },
-        { "id": 6, "name": "Cookie Dough", "price": 520.00, "rating": 4.7, "image": "./images/cookie-dough.jpg" },
+            { "id": 1, "name": "Rainbow Icecream", "price": 450.00, "rating": 4.0, "image": "./images/icecream.png" },
+            { "id": 2, "name": "Chocolate Fudge", "price": 500.00, "rating": 4.5, "image": "./images/chocolate-fudge.jpg" },
+            { "id": 3, "name": "Mint Chocolate Chip", "price": 475.00, "rating": 5.0, "image": "./images/mint-chip.jpg" },
+            { "id": 4, "name": "Strawberry Swirl", "price": 425.00, "rating": 3.5, "image": "./images/strawberry.jpg" },
+            { "id": 5, "name": "Vanilla Bean", "price": 380.00, "rating": 4.5, "image": "./images/vanilla.jpg" },
+            { "id": 6, "name": "Cookie Dough", "price": 530.00, "rating": 5.0, "image": "./images/cookie-dough.jpg" },
+            { "id": 7, "name": "Pistachio Almond", "price": 550.00, "rating": 4.8, "image": "./images/Pistachio Almond.jpg" },
+            { "id": 8, "name": "Salted Caramel", "price": 510.00, "rating": 4.6, "image": "./images/Salted Caramel.jpg" },
+            { "id": 9, "name": "Mango Tango", "price": 480.00, "rating": 4.2, "image": "./images/Mango Tango.webp" },
+            { "id": 10, "name": "Coffee Blast", "price": 490.00, "rating": 4.7, "image": "./images/Coffee Blast.jpg" },
+            { "id": 11, "name": "Black Cherry", "price": 520.00, "rating": 4.9, "image": "./images/Black Cherry.jpg" },
+            { "id": 12, "name": "Lemon Sorbet", "price": 410.00, "rating": 4.3, "image": "./images/Lemon Sorbet.jpg" }
     ];
 
     // Load items from localStorage if available (for persistence across sessions)

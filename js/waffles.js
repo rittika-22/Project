@@ -9,12 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // Added unique IDs for consistency with other products
         waffleProducts = [
-            { "id": 12, "name": "Classic Waffle", "price": 350.00, "rating": 4.7, "image": "./images/classicwaffle.jpg" },
-            { "id": 13, "name": "Chocolate Chip Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-chocolate.jpg" },
-            { "id": 14, "name": "Blueberry Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-blueberry.jpg" },
-            { "id": 15, "name": "Strawberry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-strawberry.jpg" },
-            { "id": 16, "name": "Red Velvet Waffle", "price": 420.00, "rating": 4.9, "image": "./images/waffle-redvelvet.jpg" },
-            { "id": 17, "name": "Cinnamon Roll Waffle", "price": 410.00, "rating": 4.7, "image": "./images/waffle-cinnamon.jpg" }
+            { "id": 1, "name": "Classic Waffle", "price": 350.00, "rating": 4.7, "image": "./images/classicwaffle.jpg" },
+            { "id": 2, "name": "Chocolate Chip Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-chocolate.jpg" },
+            { "id": 3, "name": "Blueberry Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-blueberry.jpg" },
+            { "id": 4, "name": "Strawberry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-strawberry.jpg" },
+            { "id": 5, "name": "Red Velvet Waffle", "price": 420.00, "rating": 4.9, "image": "./images/waffle-redvelvet.jpg" },
+            { "id": 6, "name": "Cinnamon Roll Waffle", "price": 410.00, "rating": 4.7, "image": "./images/waffle-cinnamon.jpg" },
+            { "id": 7, "name": "Banana Nut Waffle", "price": 370.00, "rating": 4.5, "image": "./images/waffle-banana.jpg" },
+            { "id": 8, "name": "Pumpkin Spice Waffle", "price": 380.00, "rating": 4.3, "image": "./images/waffle-pumpkin.webp" },
+            { "id": 9, "name": "Lemon Berry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-lemon.jpeg" },
+            { "id": 10, "name": "Caramel Drizzle Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-caramel.jpeg" },
+            { "id": 11, "name": "S'mores Waffle", "price": 430.00, "rating": 4.9, "image": "./images/waffle-smores.webp" },
+            { "id": 12, "name": "Apple Pie Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-apple.jpg" }
         ];
         console.log('Using default hardcoded waffle data.');
     }
@@ -146,14 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    employeeSectorLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        loginModal.classList.remove('hidden');
-    });
+    // employeeSectorLink.addEventListener('click', (event) => {
+    //     event.preventDefault();
+    //     loginModal.classList.remove('hidden');
+    // });
 
-    loginCloseBtn.addEventListener('click', () => {
-        loginModal.classList.add('hidden');
-    });
+    // loginCloseBtn.addEventListener('click', () => {
+    //     loginModal.classList.add('hidden');
+    // });
 
     loginForm.addEventListener('submit', (event) => {
         event.preventDefault();
