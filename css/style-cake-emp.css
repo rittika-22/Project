@@ -1,0 +1,77 @@
+:root {
+            --custom-mid-brown: #A0522D;
+            --custom-dark-brown: #8B4513;
+            --custom-light-beige: #F5F5DC;
+            --navbar-gradient-start: #C08552;
+            --navbar-gradient-end: #A0522D;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        .custom-navbar {
+            background: linear-gradient(90deg, var(--navbar-gradient-start) 0%, var(--navbar-gradient-end) 100%);
+        }
+
+        .btn-custom {
+            background-color: var(--custom-dark-brown);
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #6a3410;
+            color: #fff;
+        }
+
+        .btn-custom-mid-brown {
+            background-color: var(--custom-mid-brown);
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom-mid-brown:hover {
+            background-color: var(--custom-dark-brown);
+            color: #fff;
+        }
+
+        .card-custom-border {
+            border: 2px solid var(--custom-mid-brown);
+            border-radius: 10px;
+        }
+
+        .hidden-page {
+            display: none;
+        }
+
+        .active-page {
+            display: block;
+        }
+
+        .star-rating i {
+            color: #FFD700;
+        }
+
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .search-bar {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
