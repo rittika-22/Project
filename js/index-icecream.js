@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let cart = [];
-    try {
-        const storedCart = localStorage.getItem('cart');
-        if (storedCart) {
-            cart = JSON.parse(storedCart);
+let cart = [];
+  try {
+    // Now we use localStorage with a unified key.
+      const storedCart = localStorage.getItem('customerCart'); 
+      if (storedCart) {
+        cart = JSON.parse(storedCart);
+       }
+      } catch (e) {
+        console.error("Failed to parse cart data from localStorage", e);
         }
-    } catch (e) {
-        console.error("Failed to parse cart data from localStorage", e);
-    }
 
     const updatedItems = localStorage.getItem('customerIceCreamItems');
 
@@ -17,21 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Use the data saved by the employee panel
         iceCreamProducts = JSON.parse(updatedItems);
         console.log('Using employee-updated ice cream data.');
-    }
-
-
-    // let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    // //
-
-    // const updatedItems = localStorage.getItem('customerIceCreamItems');
-
-    // let iceCreamProducts;
-
-    // if (updatedItems) {
-    //     // Use the data saved by the employee panel
-    //     iceCreamProducts = JSON.parse(updatedItems);
-    //     console.log('Using employee-updated ice cream data.');
-    else {
+    } else {
         // Fallback to a default hardcoded list if no employee updates exist
         iceCreamProducts = [
             { "id": 1, "name": "Rainbow Icecream", "price": 450.00, "rating": 4.0, "image": "./images/icecream.png" },
@@ -40,6 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
             { "id": 4, "name": "Strawberry Swirl", "price": 425.00, "rating": 3.5, "image": "./images/strawberry.jpg" },
             { "id": 5, "name": "Vanilla Bean", "price": 380.00, "rating": 4.5, "image": "./images/vanilla.jpg" },
             { "id": 6, "name": "Cookie Dough", "price": 530.00, "rating": 5.0, "image": "./images/cookie-dough.jpg" },
+            { "id": 7, "name": "Pistachio Almond", "price": 550.00, "rating": 4.8, "image": "./images/Pistachio Almond.jpg" },
+            { "id": 8, "name": "Salted Caramel", "price": 510.00, "rating": 4.6, "image": "./images/Salted Caramel.jpg" },
+            { "id": 9, "name": "Mango Tango", "price": 480.00, "rating": 4.2, "image": "./images/Mango Tango.webp" },
+            { "id": 10, "name": "Coffee Blast", "price": 490.00, "rating": 4.7, "image": "./images/Coffee Blast.jpg" },
+            { "id": 11, "name": "Black Cherry", "price": 520.00, "rating": 4.9, "image": "./images/Black Cherry.jpg" },
+            { "id": 12, "name": "Lemon Sorbet", "price": 410.00, "rating": 4.3, "image": "./images/Lemon Sorbet.jpg" }
         ];
         console.log('Using default hardcoded ice cream data.');
     }
@@ -57,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         products.forEach(product => {
             const productCard = document.createElement('div');
-            productCard.className = 'icecream-card d-flex flex-column justify-content-center align-items-center bg-white rounded shadow-md overflow-hidden border border-amber-200 text-center h-full';
+            productCard.className = 'icecream-card d-flex flex-column justify-content-center align-items-center bg-white rounded shadow-md overflow-hidden card-custom-border text-center h-full';
             productCard.innerHTML = `
                 <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover">
                 <div class="p-3">
@@ -67,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${generateStarRating(product.rating)}
                     </div>
                     <button class="add-to-cart-btn inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
-                                data-name="${product.name}" 
-                                data-price="${product.price}" 
-                                data-image-src="${product.image}"> 
+                                 data-name="${product.name}" 
+                                 data-price="${product.price}" 
+                                 data-image-src="${product.image}"> 
                         Add to Cart
                     </button>
                 </div>
@@ -77,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
             productGrid.appendChild(productCard);
         });
     }
+
+
 
     // Helper function to generate star rating HTML
     function generateStarRating(rating) {
@@ -142,8 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Cart functionality
-    // let cart = JSON.parse(sessionStorage.getItem('iceCreamCart')) || [];
 
     const cartCountSpan = document.getElementById('cart-count');
     const cartModal = document.getElementById('cart-modal');
@@ -153,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCartButton = document.getElementById('view-cart');
     const confirmationModal = document.getElementById('confirmation-modal');
     const goToCartButton = confirmationModal.querySelector('.go-to-cart-button');
+    
 
     // Add item to cart function
     function addItemToCart(name, price, imageSrc) {
@@ -175,9 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Save cart to session storage
     function saveCart() {
-        sessionStorage.setItem('iceCreamCart', JSON.stringify(cart));
-        updateCartCount();
-    }
+    // Save the cart to the unified localStorage key.
+        localStorage.setItem('customerCart', JSON.stringify(cart));
+        updateCartCount();
+     }
+
+     
 
     // Show confirmation modal
     function showConfirmationModal() {
@@ -196,12 +193,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Go to cart button in confirmation modal
     if (goToCartButton) {
-        goToCartButton.addEventListener('click', () => {
-            window.location.href = 'cart.html';
-        });
-    }
+    goToCartButton.addEventListener('click', () => {
+        // Navigate to the order page to see all items together.
+        window.location.href = 'order.html'; 
+    });
+}
 
     // --- Employee Sector Login: This is the ONLY part that handles the login modal ---
     const employeeSectorLink = document.getElementById('employeeSectorLink');
@@ -243,5 +240,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial cart count update
     updateCartCount();
-
 });
