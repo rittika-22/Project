@@ -7,13 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
         waffleProducts = JSON.parse(updatedWaffleItems);
         console.log('Using employee-updated waffle data.');
     } else {
+        // Added unique IDs for consistency with other products
         waffleProducts = [
-            { "id": 1, "name": "Classic Waffle", "price": 350.00, "rating": 4.7, "image": "./images/classicwaffle.jpg" },
-            { "id": 2, "name": "Chocolate Chip Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-chocolate.jpg" },
-            { "id": 3, "name": "Blueberry Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-blueberry.jpg" },
-            { "id": 4, "name": "Strawberry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-strawberry.jpg" },
-            { "id": 5, "name": "Red Velvet Waffle", "price": 420.00, "rating": 4.9, "image": "./images/waffle-redvelvet.jpg" },
-            { "id": 6, "name": "Cinnamon Roll Waffle", "price": 410.00, "rating": 4.7, "image": "./images/waffle-cinnamon.jpg" }
+            { "id": 12, "name": "Classic Waffle", "price": 350.00, "rating": 4.7, "image": "./images/classicwaffle.jpg" },
+            { "id": 13, "name": "Chocolate Chip Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-chocolate.jpg" },
+            { "id": 14, "name": "Blueberry Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-blueberry.jpg" },
+            { "id": 15, "name": "Strawberry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-strawberry.jpg" },
+            { "id": 16, "name": "Red Velvet Waffle", "price": 420.00, "rating": 4.9, "image": "./images/waffle-redvelvet.jpg" },
+            { "id": 17, "name": "Cinnamon Roll Waffle", "price": 410.00, "rating": 4.7, "image": "./images/waffle-cinnamon.jpg" }
         ];
         console.log('Using default hardcoded waffle data.');
     }
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${starRatingHtml} (${product.rating.toFixed(1)})
                     </div>
                     <button class="add-to-cart-btn inline-block px-4 py-2 bg-orange-500 text-white font-semibold rounded-full shadow-md hover:bg-orange-600 transition-colors mt-4"
+                                data-id="${product.id}"
                                 data-name="${product.name}"
                                 data-price="${product.price}"
                                 data-image-src="${product.image}">
@@ -62,11 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (waffleGrid) {
         waffleGrid.addEventListener('click', (event) => {
             if (event.target.classList.contains('add-to-cart-btn')) {
+                const id = parseInt(event.target.dataset.id);
                 const name = event.target.dataset.name;
                 const price = parseFloat(event.target.dataset.price);
                 const imageSrc = event.target.dataset.imageSrc;
 
-                addItemToCart(name, price, imageSrc);
+                addItemToCart(id, name, price, imageSrc);
                 showConfirmationModal();
             }
         });
@@ -94,7 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    let cart = JSON.parse(sessionStorage.getItem('waffleCart')) || [];
+    // Now uses the unified 'customerCart' key in localStorage
+    let cart = JSON.parse(localStorage.getItem('customerCart')) || [];
     const confirmationModal = document.getElementById('confirmation-modal');
     const goToCartButton = confirmationModal.querySelector('.go-to-cart-button');
     const closeButtons = document.querySelectorAll('.close-button');
@@ -107,18 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const loginCloseBtn = loginModal.querySelector('.close-btn');
 
-    function addItemToCart(name, price, imageSrc) {
-        const existingItem = cart.find(item => item.name === name);
+    // Function updated to use item id for consistency
+    function addItemToCart(id, name, price, imageSrc) {
+        const existingItem = cart.find(item => item.id === id);
         if (existingItem) {
             existingItem.quantity++;
         } else {
-            cart.push({ name, price, imageSrc, quantity: 1 });
+            cart.push({ id, name, price, imageSrc, quantity: 1 });
         }
         saveCart();
     }
 
+    // Now saves to the unified 'customerCart' in localStorage
     function saveCart() {
-        sessionStorage.setItem('waffleCart', JSON.stringify(cart));
+        localStorage.setItem('customerCart', JSON.stringify(cart));
     }
 
     function showConfirmationModal() {
@@ -136,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (goToCartButton) {
         goToCartButton.addEventListener('click', () => {
-            window.location.href = 'waffles-cart.html';
+            window.location.href = 'order.html';
         });
     }
 
