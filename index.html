@@ -44,23 +44,10 @@
            <div class="hidden lg:flex space-x-6">
                 <a href="#home" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Home</a>
                 <a href="#about" class="hover:text-amber-300 transition duration-300 rounded-md p-2">About</a>
-  
-             <div class="relative group">
-               <a href="#food-items" class="hover:text-amber-300 transition duration-300 rounded-md p-2">
-               Delights
-               </a>
-             <div id="delights-menu"
-              class="lg:absolute lg:top-full lg:right-0 lg:mt-3 lg:bg-white lg:shadow-xl lg:rounded-xl lg:p-2 lg:z-50 lg:hidden group-hover:block transition-all duration-300 ease-in-out origin-top-right">
-                <a href="sweetCards.html" class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Sweets</a>
-                <a href="cake-card.html"
-                 class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Cakes</a>
-                <a href="icecream.html"  class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Ice-creams</a>
-                <a href="waffles.html"   class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Waffles</a>
-                <a href="cake-card.html" class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Pastries</a>
-             </div>
-             </div>
+                <a href="#food-items" class="hover:text-amber-300 transition duration-300 rounded-md p-2"> Delights</a>
 
                 <a href="#contact" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Contact</a>
+                <a href="login.html" id="userAuthBtn" onclick="toggleUserAuth()" class="hover:text-amber-300 transition duration-300 rounded-md p-2">Login</a>
                 <a href="#" onclick="showLoginModal()"
                 class="hover:text-amber-300 transition duration-300 rounded-md p-2">Employee Sector</a>
         </div>
@@ -70,19 +57,6 @@
             <a href="#home" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Home</a>
             <a href="#about" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">About</a>
             <a href="#food-items" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Delights</a>
-            <!-- <div id="delights-menu"
-                class="lg:absolute lg:top-full lg:right-0 lg:mt-2 lg:bg-white lg:shadow-xl lg:rounded-xl lg:p-2 lg:z-50 lg:hidden group-hover:block transition-all duration-300 ease-in-out origin-top-right">
-                <a href="#sweets"
-                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Sweets</a>
-                <a href="#cakes"
-                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Cakes</a>
-                <a href="#icecreams"
-                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Ice-creams</a>
-                <a href="#waffles"
-                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Waffles</a>
-                <a href="#pastries"
-                    class="block w-full py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-300">Pastries</a>
-            </div> -->
             <a href="#contact" class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Contact</a>
             <a href="platformPage.html" onclick="showLoginModal()"
                 class="block py-2 px-4 text-white hover:bg-amber-600 rounded-md">Employee Sector</a>
@@ -496,7 +470,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         xintegrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/index-home.js"></script>
+    <script type="text/javascript" src="./js/index-home.js"></script>
+    <script type="text/javascript" src="./js/auth.js"></script>
 </body>
 
 </html>

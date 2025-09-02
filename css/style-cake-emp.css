@@ -64,6 +64,46 @@ body {
   margin: auto;
 }
 
+/* Updated styling for the search input to match style-cake.css */
+.search-bar input {
+  border-radius: 30px;
+  padding: 0.7rem 1rem;
+  border: 2px solid #A52A2A;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: #3D1B1B;
+  box-shadow: 0 0 8px rgba(61,27,27,0.4);
+}
+
+/* Added styling for the card to match style-cake.css */
+.item-card {
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: #fffdf9;
+}
+
+/* Added styling for the card image to match style-cake.css */
+.item-card img {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.card-title-custom {
+  color: #3D1B1B;
+  font-weight: bold;
+}
+
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }

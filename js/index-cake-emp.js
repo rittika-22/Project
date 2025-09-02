@@ -19,14 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load items from localStorage or use a default list
     let items = JSON.parse(localStorage.getItem('employeeCakeItems')) || [
-        { id: 1, name: "Chocolate Cake", price: 800, rating: 4.4, image: "./images/chocolate-cake.jpg", category: "cake" },
-        { id: 2, name: "Red Velvet Cake", price: 950, rating: 4.7, image: "./images/red-velbat-kitkat-cake.jpg", category: "cake" },
-        { id: 3, name: "Black Forest Cake", price: 1000, rating: 4.5, image: "./images/black-forest-cake.JPG", category: "cake" },
-        { id: 4, name: "Chocolate Pastry", price: 350, rating: 3.9, image: "./images/choco-pastry.jpeg", category: "pastry" },
-        { id: 5, name: "Strawberry Shortcake", price: 900, rating: 4.8, image: "./images/strawberry.jpg", category: "pastry" },
-        { id: 6, name: "Fruit Tart", price: 600, rating: 4.3, image: "./images/fruit-tart.jpg", category: "pastry" }
+            { id: 1, name: "Chocolate Cake", price: 800, rating: 4.4, image: "./images/chocolate-cake.jpg", category: "cake" },
+    { id: 2, name: "Red Velvet Cake", price: 950, rating: 4.7, image: "./images/red-velbat-kitkat-cake.jpg", category: "cake" },
+    { id: 3, name: "Black Forest Cake", price: 1000, rating: 4.5, image: "./images/black-forest-cake.JPG", category: "cake" },
+    { id: 4, name: "Mango Cake", price: 1050, rating: 4.5, image: "./images/mango-cake.jpg", category: "cake" },
+    { id: 5, name: "Chocolate Pastry", price: 350, rating: 3.9, image: "./images/choco-pastry.jpeg", category: "pastry" },
+    { id: 6, name: "Strawberry Shortcake", price: 500, rating: 4.8, image: "./images/strawberry.jpg", category: "pastry" },
+    { id: 7, name: "Fruit Tart", price: 600, rating: 4.1, image: "./images/fruit-tart.jpg", category: "pastry" },
+    { id: 8, name: "Vanilla Cake", price: 750, rating: 4.3, image: "./images/vanilla-cake.webp", category: "cake" },
+    { id: 9, name: "Blueberry Cheese Cake", price: 1300, rating: 4.0, image: "./images/chesse-cake.jpg", category: "cake" },
+    { id: 10, name: "Coffee Cake", price: 1100, rating: 4.3, image: "./images/coffee.jpeg", category: "cake" },
+    { id: 11, name: "Cinnamon rolls", price: 650, rating: 4.3, image: "./images/cinnamon-roll.jpg", category: "pastry" },
+    { id: 12, name: "Puff Pastry", price: 300, rating: 4.3, image: "./images/puff-pastry.jpg", category: "pastry" },
+    { id: 13, name: "Croissant", price: 200, rating: 4.3, image: "./images/croissant.webp", category: "pastry" },
+    { id: 14, name: "Donuts", price: 100, rating: 4.3, image: "./images/donuts.jpg", category: "pastry" },
+    { id: 15, name: "Lemon meringue tart", price: 400, rating: 4.3, image: "./images/tart.jpg", category: "pastry" },
+    { id: 16, name: "Butterscotch Cake", price: 1200, rating: 4.3, image: "./images/butterscotch.jpg",category:"cake"}
     ];
-
+     
     /**
      * Renders the star rating HTML based on a given rating value.
      * @param {number} rating - The rating value (e.g., 4.0).

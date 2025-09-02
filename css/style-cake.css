@@ -53,6 +53,11 @@ body {
 }
 
 /* ================= Cards ================= */
+.search-bar{
+  max-width: 600px;
+  margin: auto;;
+  margin-bottom: 20px;
+}
 .card-container {
   padding: 0 1rem;
 }
@@ -91,22 +96,20 @@ body {
   font-size: 2rem;
   font-weight: bold;
   color: #3D1B1B; /* New text color */
-  margin: 2rem 0 1rem 0;
+  margin: auto;
   border-bottom: 3px solid #A52A2A; /* New border color */
-  display: inline-block;
+  display: block;
   background: #FDF8F0; /* New background color */
   padding: 0.5rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* ================= Stars ================= */
 .star-rating i {
-  color: #FFC0CB; /* New star color */
+  color: gold !important; 
   margin-right: 2px;
 }
 
-/* ================= Buttons ================= */
 .btn-custom-mid-brown {
   background-color: #3D1B1B; /* New button color */
   color: white;
@@ -201,7 +204,6 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* ================= Login/Signup ================= */
 .login-box {
   max-width: 400px;
   background: #FDF8F0; /* New background color */
