@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (found) {
                 localStorage.setItem("loggedInUser", JSON.stringify(found));
                 showMessageBox("Login successful!");
-                window.location.href = "index.html"; // Redirect to home page
+                window.location.href = "order.html"; // Redirect to home page
             } else {
                 showMessageBox("Invalid email or password!");
             }
