@@ -10,37 +10,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutBtn = document.getElementById('checkoutBtn');
 
     // Dessert data (moved from data.json)
-    const defaultItems = [
-        { "id": 1, "name": "Besan Laddu", "price": 300.00, "rating": 4.4, "image": "./images/besan-laddu.png" },
-        { "id": 2, "name": "Chomchom", "price": 400.00, "rating": 4.6, "image": "./images/chomchom.png" },
-        { "id": 3, "name": "Dhokla", "price": 300.50, "rating": 4.1, "image": "./images/dhokla.png" },
-        { "id": 4, "name": "Doi", "price": 200.50, "rating": 4.3, "image": "./images/doi.png" },
-        { "id": 5, "name": "Jilebi", "price": 300.00, "rating": 4.7, "image": "./images/jilebi.png" },
-        { "id": 6, "name": "Kaju Barfi", "price": 500.00, "rating": 4.8, "image": "./images/kaju-barfi.png" },
-        { "id": 7, "name": "Mithai Pastry", "price": 400.20, "rating": 4.0, "image": "./images/mithai-pastry.png" },
-        { "id": 8, "name": "Motichur Laddu", "price": 300.80, "rating": 4.5, "image": "./images/laddu.png" },
-        { "id": 9, "name": "Nolen Sondesh", "price": 400.60, "rating": 4.9, "image": "./images/nolen-sondesh.png" },
-        { "id": 10, "name": "Roshmalai", "price": 500.50, "rating": 4.9, "image": "./images/roshmalai.png" },
-        { "id": 11, "name": "Sondesh", "price": 400.00, "rating": 4.2, "image": "./images/sondexh.png" }
+    // const defaultItems = [
+    //     { "id": 1, "name": "Besan Laddu", "price": 300.00, "rating": 4.4, "image": "./images/besan-laddu.png" },
+    //     { "id": 2, "name": "Chomchom", "price": 400.00, "rating": 4.6, "image": "./images/chomchom.png" },
+    //     { "id": 3, "name": "Dhokla", "price": 300.50, "rating": 4.1, "image": "./images/dhokla.png" },
+    //     { "id": 4, "name": "Doi", "price": 200.50, "rating": 4.3, "image": "./images/doi.png" },
+    //     { "id": 5, "name": "Jilebi", "price": 300.00, "rating": 4.7, "image": "./images/jilebi.png" },
+    //     { "id": 6, "name": "Kaju Barfi", "price": 500.00, "rating": 4.8, "image": "./images/kaju-barfi.png" },
+    //     { "id": 7, "name": "Mithai Pastry", "price": 400.20, "rating": 4.0, "image": "./images/mithai-pastry.png" },
+    //     { "id": 8, "name": "Motichur Laddu", "price": 300.80, "rating": 4.5, "image": "./images/laddu.png" },
+    //     { "id": 9, "name": "Nolen Sondesh", "price": 400.60, "rating": 4.9, "image": "./images/nolen-sondesh.png" },
+    //     { "id": 10, "name": "Roshmalai", "price": 500.50, "rating": 4.9, "image": "./images/roshmalai.png" },
+    //     { "id": 11, "name": "Sondesh", "price": 400.00, "rating": 4.2, "image": "./images/sondexh.png" }
 
-    ];
+    // ];
 
-    // 2. Load items from localStorage using the 'customerItems' key
-    //    If no published data exists, it will use the defaultItems.
-    let items = defaultItems; // Start with default items
-    if (localStorage.getItem('customerItems')) {
+    // // 2. Load items from localStorage using the 'customerItems' key
+    // //    If no published data exists, it will use the defaultItems.
+    // let items = defaultItems; // Start with default items
+    // if (localStorage.getItem('customerItems')) {
+    //     try {
+    //         const storedItems = JSON.parse(localStorage.getItem('customerItems'));
+    //         if (Array.isArray(storedItems)) { // Basic validation to ensure it's an array
+    //             items = storedItems;
+    //         }
+    //     } catch (e) {
+    //         console.error("Error parsing customerItems from localStorage:", e);
+    //         // Fallback to defaultItems if parsing fails
+    //     }
+    // }
+
+    // --- END OF CHANGES ---
+    // Replace the old hardcoded 'items' array and localStorage check with this:
+    let items = [];
+
+    async function loadItemsFromSQL() {
         try {
-            const storedItems = JSON.parse(localStorage.getItem('customerItems'));
-            if (Array.isArray(storedItems)) { // Basic validation to ensure it's an array
-                items = storedItems;
-            }
-        } catch (e) {
-            console.error("Error parsing customerItems from localStorage:", e);
-            // Fallback to defaultItems if parsing fails
+            const response = await fetch('http://localhost:3000/api/sweet_desserts');
+            items = await response.json();
+            displayDesserts(items);
+        } catch (error) {
+            console.error("Error fetching from SQL:", error);
         }
     }
 
-    // --- END OF CHANGES ---
+    // Call this at the end of DOMContentLoaded instead of displayDesserts(items)
+    loadItemsFromSQL();
+
 
     let cart = JSON.parse(localStorage.getItem('customerCart')) || [];// Load cart from localStorage or initialize empty // Load cart from localStorage or initialize empty
 
@@ -80,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <img src="${item.image}" class="card-img-top" alt="${item.name}">
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title card-title-custom fw-bold">${item.name}</h5>
-                                    <p class="card-text text-muted">Price (per kg) : ${item.price.toFixed(2)} Tk</p>
-                                    ${getStarRatingHtml(item.rating)}
+                                    <p class="card-text text-muted">Price (per kg) : ${Number(item.price).toFixed(2)} Tk</p>
+                                    ${getStarRatingHtml(Number(item.rating))}
                                     <button class="btn btn-custom-mid-brown mt-auto order-btn" data-item-id="${item.id}">Order</button>
                                 </div>
                             </div>
@@ -200,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <button class="btn btn-sm btn-outline-secondary quantity-btn" data-item-id="${item.id}" data-change="1">+</button>
                                     </div>
                                     <div class="ms-4">
-                                        <span class="fs-5 fw-bold">Tk${(item.price * item.quantity).toFixed(2)}</span>
+                                        <span class="fs-5 fw-bold">Tk${(Number(item.price) * item.quantity).toFixed(2)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -290,5 +306,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
     // Initial display of desserts when the page loads
-    displayDesserts(items);
+    loadItemsFromSQL();
 });

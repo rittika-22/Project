@@ -19,24 +19,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dessert data (initial data for employees to manage)
     // This initial data will only be used if 'employeeItems' in localStorage is empty
-    let items = [
-        { "id": 1, "name": "Besan Laddu", "price": 300.00, "rating": 4.4, "image": "./images/besan-laddu.png" },
-        { "id": 2, "name": "Chomchom", "price": 400.00, "rating": 4.6, "image": "./images/chomchom.png" },
-        { "id": 3, "name": "Dhokla", "price": 300.50, "rating": 4.1, "image": "./images/dhokla.png" },
-        { "id": 4, "name": "Doi", "price": 200.50, "rating": 4.3, "image": "./images/doi.png" },
-        { "id": 5, "name": "Jilebi", "price": 300.00, "rating": 4.7, "image": "./images/jilebi.png" },
-        { "id": 6, "name": "Kaju Barfi", "price": 500.00, "rating": 4.8, "image": "./images/kaju-barfi.png" },
-        { "id": 7, "name": "Mithai Pastry", "price": 400.20, "rating": 4.0, "image": "./images/mithai-pastry.png" },
-        { "id": 8, "name": "Motichur Laddu", "price": 300.80, "rating": 4.5, "image": "./images/laddu.png" },
-        { "id": 9, "name": "Nolen Sondesh", "price": 400.60, "rating": 4.9, "image": "./images/nolen-sondesh.png" },
-        { "id": 10, "name": "Roshmalai", "price": 500.50, "rating": 4.9, "image": "./images/roshmalai.png" },
-        { "id": 11, "name": "Sondesh", "price": 400.00, "rating": 4.2, "image": "./images/sondexh.png" }
-    ];
+    // let items = [
+    //     { "id": 1, "name": "Besan Laddu", "price": 300.00, "rating": 4.4, "image": "./images/besan-laddu.png" },
+    //     { "id": 2, "name": "Chomchom", "price": 400.00, "rating": 4.6, "image": "./images/chomchom.png" },
+    //     { "id": 3, "name": "Dhokla", "price": 300.50, "rating": 4.1, "image": "./images/dhokla.png" },
+    //     { "id": 4, "name": "Doi", "price": 200.50, "rating": 4.3, "image": "./images/doi.png" },
+    //     { "id": 5, "name": "Jilebi", "price": 300.00, "rating": 4.7, "image": "./images/jilebi.png" },
+    //     { "id": 6, "name": "Kaju Barfi", "price": 500.00, "rating": 4.8, "image": "./images/kaju-barfi.png" },
+    //     { "id": 7, "name": "Mithai Pastry", "price": 400.20, "rating": 4.0, "image": "./images/mithai-pastry.png" },
+    //     { "id": 8, "name": "Motichur Laddu", "price": 300.80, "rating": 4.5, "image": "./images/laddu.png" },
+    //     { "id": 9, "name": "Nolen Sondesh", "price": 400.60, "rating": 4.9, "image": "./images/nolen-sondesh.png" },
+    //     { "id": 10, "name": "Roshmalai", "price": 500.50, "rating": 4.9, "image": "./images/roshmalai.png" },
+    //     { "id": 11, "name": "Sondesh", "price": 400.00, "rating": 4.2, "image": "./images/sondexh.png" }
+    // ];
 
-    // Load items from localStorage if available (for persistence across sessions)
-    if (localStorage.getItem('employeeItems')) {
-        items = JSON.parse(localStorage.getItem('employeeItems'));
+    // // Load items from localStorage if available (for persistence across sessions)
+    // if (localStorage.getItem('employeeItems')) {
+    //     items = JSON.parse(localStorage.getItem('employeeItems'));
+    // }
+    let items = [];
+
+    async function loadItemsFromSQL() {
+        try {
+            const response = await fetch('http://localhost:3000/api/sweet_desserts');
+            items = await response.json();
+            displayDesserts(items);
+        } catch (error) {
+            console.error("Error fetching from SQL:", error);
+        }
     }
+
+    // Call this at the end of DOMContentLoaded instead of displayDesserts(items)
+    loadItemsFromSQL();
+
 
     /**
      * Renders the star rating HTML based on a given rating value.
@@ -74,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <img src="${item.image}" class="card-img-top" alt="${item.name}" onerror="this.onerror=null;this.src='https://placehold.co/400x250/cccccc/333333?text=Image+Not+Found';">
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title card-title-custom fw-bold">${item.name}</h5>
-                                    <p class="card-text text-muted">Price (per kg) : ${item.price.toFixed(2)} Tk</p>
-                                    ${getStarRatingHtml(item.rating)}
+                                     <p class="card-text text-muted">Price (per kg) : ${Number(item.price).toFixed(2)} Tk</p>
+                                    ${getStarRatingHtml(Number(item.rating))}
                                     <div class="mt-auto d-flex justify-content-between">
                                         <button class="btn btn-sm btn-info edit-btn" data-item-id="${item.id}">Edit</button>
                                         <button class="btn btn-sm btn-danger delete-btn" data-item-id="${item.id}">Delete</button>
@@ -114,19 +129,22 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Handles the actual deletion after confirmation.
      */
-    confirmDeleteBtn.addEventListener('click', () => {
-        deleteConfirmModal.hide(); // Hide modal first
+    confirmDeleteBtn.addEventListener('click', async () => {
+        deleteConfirmModal.hide();
         if (itemIdToDelete !== null) {
-            const initialLength = items.length;
-            items = items.filter(item => item.id !== itemIdToDelete);
-            if (items.length < initialLength) {
-                localStorage.setItem('employeeItems', JSON.stringify(items)); // Save updated items
-                console.log('Item deleted successfully from employee view!');
-                displayDesserts(items); // Re-render the list
-            } else {
-                console.log('Item not found for deletion.');
+            try {
+                const response = await fetch(`http://localhost:3000/api/desserts/${itemIdToDelete}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    console.log('Item deleted from SQL successfully!');
+                    loadItemsFromSQL(); // Refresh the list from the database
+                }
+            } catch (error) {
+                console.error("Error deleting from SQL:", error);
             }
-            itemIdToDelete = null; // Reset
+            itemIdToDelete = null;
         }
     });
 
@@ -155,65 +173,50 @@ document.addEventListener('DOMContentLoaded', () => {
      * Handles adding a new item or updating an existing item from the form.
      * @param {Event} event - The form submission event.
      */
-    function handleAddItemForm(event) {
-        event.preventDefault(); // Prevent default form submission
+    async function handleAddItemForm(event) {
+        event.preventDefault();
 
         const itemName = document.getElementById('itemName').value;
         const itemPrice = parseFloat(document.getElementById('itemPrice').value);
         const itemRating = parseFloat(document.getElementById('itemRating').value);
         const itemImage = document.getElementById('itemImage').value;
-        const currentItemId = itemIdToEditInput.value ? parseInt(itemIdToEditInput.value) : null;
+        const currentItemId = itemIdToEditInput.value; // Get the ID from hidden input
 
-        if (!itemName || isNaN(itemPrice) || isNaN(itemRating) || !itemImage) {
-            console.error('Please fill in all fields with valid data.');
-            return;
-        }
+        const itemData = { name: itemName, price: itemPrice, rating: itemRating, image: itemImage };
 
-        if (currentItemId) {
-            // Update existing item
-            const itemIndex = items.findIndex(item => item.id === currentItemId);
-            if (itemIndex > -1) {
-                items[itemIndex] = {
-                    id: currentItemId,
-                    name: itemName,
-                    price: itemPrice,
-                    rating: itemRating,
-                    image: itemImage
-                };
-                console.log(`${itemName} updated successfully in employee view!`);
+        try {
+            let response;
+            if (currentItemId) {
+                // UPDATE: Send a PUT request
+                response = await fetch(`http://localhost:3000/api/sweet_desserts/${currentItemId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(itemData)
+                });
             } else {
-                console.error('Item not found for update:', currentItemId);
+                // ADD: Send a POST request
+                response = await fetch('http://localhost:3000/api/sweet_desserts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(itemData)
+                });
             }
-        } else {
-            // Add new item
-            const newId = items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
-            const newItem = {
-                id: newId,
-                name: itemName,
-                price: itemPrice,
-                rating: itemRating,
-                image: itemImage
-            };
-            items.push(newItem);
-            console.log(`${newItem.name} added successfully to employee view!`);
-        }
 
-        localStorage.setItem('employeeItems', JSON.stringify(items)); // Save updated items for employee view
-        addItemForm.reset();
-        itemIdToEditInput.value = '';
-        formSubmitBtn.textContent = 'Add Item';
-        addItemPageTitle.textContent = 'Add New Item';
-        showPage('employee-main-page');
+            if (response.ok) {
+                addItemForm.reset();
+                itemIdToEditInput.value = '';
+                showPage('employee-main-page');
+                loadItemsFromSQL(); // Refresh the list
+            }
+        } catch (error) {
+            console.error("Error saving to SQL:", error);
+        }
     }
 
     /**
      * Saves the current employee items to the customer-facing localStorage.
      */
-    function applyChangesToCustomerView() {
-        localStorage.setItem('customerItems', JSON.stringify(items));
-        alert('Changes applied to Customer View! Please refresh the customer page to see updates.');
-        console.log('Items published to customer view (localStorage key: customerItems)');
-    }
+   
 
     /**
      * Switches between the main employee page and the add item page.
@@ -257,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // "Apply Changes" button click
-    applyChangesBtn.addEventListener('click', applyChangesToCustomerView);
+    // applyChangesBtn.addEventListener('click', applyChangesToCustomerView);
 
     // "Back to Employee Panel" button click
     backToEmployeeMainBtn.addEventListener('click', () => {
@@ -273,5 +276,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initial display of desserts when the page loads
-    displayDesserts(items);
+    loadItemsFromSQL();
 });
