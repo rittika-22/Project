@@ -1,57 +1,56 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Placeholder for the hashPassword function.
-    // This is needed to make the login form work.
-    // For a real-world application, use a secure cryptographic library.
+    // 1. Helper: Hash password before sending to server
     async function hashPassword(password) {
         const encoder = new TextEncoder();
         const data = encoder.encode(password);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Function to update the login/logout button based on user status
+    // 2. UI: Update Login/Logout button appearance
     function updateAuthButton() {
         const userAuthBtn = document.getElementById("userAuthBtn");
         const loggedInUser = localStorage.getItem("loggedInUser");
 
         if (userAuthBtn) {
             if (loggedInUser) {
-                userAuthBtn.textContent = "Logout";
-                userAuthBtn.href = "#"; // Use a dummy href since we're handling the click
-                userAuthBtn.addEventListener("click", handleLogout);
+                const user = JSON.parse(loggedInUser);
+                userAuthBtn.textContent = `Logout (${user.full_name})`;
+                userAuthBtn.href = "#";
+                userAuthBtn.onclick = handleLogout;
             } else {
                 userAuthBtn.textContent = "Login";
-                userAuthBtn.href = "login.html"; // Redirect to login page
-                userAuthBtn.removeEventListener("click", handleLogout);
+                userAuthBtn.href = "login.html";
+                userAuthBtn.onclick = null;
             }
         }
     }
 
-    // New logout handler function
+    // 3. Logic: Handle Logout
     function handleLogout(e) {
-        e.preventDefault(); // Prevent the default link behavior
+        e.preventDefault();
         localStorage.removeItem("loggedInUser");
-        alert("You have been logged out."); // Use a simple alert for now
-        window.location.reload(); // Reload the page to update the UI
+        alert("You have been logged out.");
+        window.location.href = "index.html";
     }
 
-    // Function to show a message box
-    function showMessageBox(message) {
+    // 4. UI: Feedback Message Box
+    function showMessageBox(message, isError = true) {
         const messageBox = document.getElementById("message-box");
         if (messageBox) {
             messageBox.textContent = message;
-            messageBox.className = "mb-4 p-3 rounded-lg text-center font-medium " +
-                (message.includes("successful") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700");
+            messageBox.className = `mb-4 p-3 rounded text-center ${isError ? 'bg-danger text-white' : 'bg-success text-white'}`;
             messageBox.style.display = "block";
+        } else {
+            alert(message);
         }
     }
 
-    // Call the function on page load
+    // Initialize UI
     updateAuthButton();
-    
-    // LOGIN FORM
+
+    // --- 5. LOGIN FORM LOGIC ---
     const loginForm = document.getElementById("loginForm");
     if (loginForm) {
         loginForm.onsubmit = async (e) => {
@@ -59,22 +58,31 @@ document.addEventListener("DOMContentLoaded", () => {
             const email = document.getElementById("loginEmail").value.trim();
             const pass = document.getElementById("loginPassword").value;
 
-            const users = JSON.parse(localStorage.getItem("users")) || [];
+            // Hash locally so we send the hash over the network
             const passHash = await hashPassword(pass);
 
-            const found = users.find(u => u.email === email && u.password === passHash);
+            try {
+                const response = await fetch('http://localhost:3000/api/customer/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password: passHash })
+                });
 
-            if (found) {
-                localStorage.setItem("loggedInUser", JSON.stringify(found));
-                showMessageBox("Login successful!");
-                window.location.href = "order.html"; // Redirect to home page
-            } else {
-                showMessageBox("Invalid email or password!");
+                const result = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("loggedInUser", JSON.stringify(result.user));
+                    window.location.href = "order.html"; // Redirect to ordering page
+                } else {
+                    showMessageBox(result.error || "Login failed");
+                }
+            } catch (err) {
+                showMessageBox("Server is offline. Please check your backend.");
             }
         };
     }
 
-    // SIGNUP FORM
+    // --- 6. SIGNUP FORM LOGIC ---
     const signupForm = document.getElementById("signupForm");
     if (signupForm) {
         signupForm.onsubmit = async (e) => {
@@ -84,27 +92,29 @@ document.addEventListener("DOMContentLoaded", () => {
             const pass = document.getElementById("signupPassword").value;
             const confirm = document.getElementById("signupConfirm").value;
 
-            if (pass.length < 6) {
-                showMessageBox("Password must be at least 6 characters long!");
-                return;
-            }
-            if (pass !== confirm) {
-                showMessageBox("Passwords do not match!");
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem("users")) || [];
-            if (users.find(u => u.email === email)) {
-                showMessageBox("User already exists. Please login.");
-                window.location.href = "login.html";
-                return;
-            }
+            if (pass.length < 6) return showMessageBox("Password too short!");
+            if (pass !== confirm) return showMessageBox("Passwords do not match!");
 
             const passHash = await hashPassword(pass);
-            users.push({ name, email, password: passHash });
-            localStorage.setItem("users", JSON.stringify(users));
-            showMessageBox("Signup successful! You can now log in.");
-            window.location.href = "login.html";
+
+            try {
+                const response = await fetch('http://localhost:3000/api/customer/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ full_name: name, email, password: passHash })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Account created! Please login.");
+                    window.location.href = "login.html";
+                } else {
+                    showMessageBox(result.error || "Signup failed");
+                }
+            } catch (err) {
+                showMessageBox("Connection error.");
+            }
         };
     }
 });

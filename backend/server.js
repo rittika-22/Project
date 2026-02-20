@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Example Route: Get all desserts
+// Example Route: Get all sweet desserts.........................................................................
 app.get('/api/sweet_desserts', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM sweet_desserts');
@@ -61,7 +61,44 @@ app.put('/api/sweet_desserts/:id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+//sweet deserts part completed here.................................................................................
 
+//customer login and signup.......................................................................................
+// CUSTOMER SIGNUP
+app.post('/api/customer/signup', async (req, res) => {
+    const { full_name, email, password } = req.body;
+    try {
+        await pool.query(
+            'INSERT INTO customers (full_name, email, password) VALUES (?, ?, ?)',
+            [full_name, email, password]
+        );
+        res.status(201).json({ message: "User created successfully!" });
+    } catch (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+            res.status(400).json({ error: "Email already registered." });
+        } else {
+            res.status(500).json({ error: "Database error." });
+        }
+    }
+});
+
+// CUSTOMER LOGIN
+app.post('/api/customer/login', async (req, res) => {
+    const { email, password } = req.body; // password here is already hashed from frontend
+    try {
+        const [rows] = await pool.query('SELECT * FROM customers WHERE email = ?', [email]);
+        if (rows.length === 0 || rows[0].password !== password) {
+            return res.status(401).json({ error: "Invalid email or password." });
+        }
+        res.json({
+            message: "Login successful",
+            user: { id: rows[0].id, full_name: rows[0].full_name }
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Server error." });
+    }
+});
+//customer login and signup completed here..................................................................
 
 
 const PORT = 3000;
