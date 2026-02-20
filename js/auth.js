@@ -71,7 +71,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    localStorage.setItem("loggedInUser", JSON.stringify(result.user));
+                    localStorage.setItem("loggedInUser", JSON.stringify({
+                        id: result.user.id,
+                        full_name: result.user.full_name,
+                        email: result.user.email
+                    }));
                     window.location.href = "order.html"; // Redirect to ordering page
                 } else {
                     showMessageBox(result.error || "Login failed");

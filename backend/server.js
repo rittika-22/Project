@@ -92,7 +92,7 @@ app.post('/api/customer/login', async (req, res) => {
         }
         res.json({
             message: "Login successful",
-            user: { id: rows[0].id, full_name: rows[0].full_name }
+            user: { id: rows[0].id, full_name: rows[0].full_name,email:rows[0].email }
         });
     } catch (err) {
         res.status(500).json({ error: "Server error." });
@@ -100,7 +100,32 @@ app.post('/api/customer/login', async (req, res) => {
 });
 //customer login and signup completed here..................................................................
 
+//order_billing_system.............................................................................................
+// --- NEW ORDER ROUTE ---
+app.post('/api/place-order', async (req, res) => {
+    // Destructure the data sent from the frontend
+    const { email, name, items, total } = req.body;
 
+    try {
+        // We convert the items array into a JSON string for the database
+        const itemsJSON = JSON.stringify(items);
+
+        const [result] = await pool.query(
+            'INSERT INTO orders (customer_email, customer_name, items, total_amount) VALUES (?, ?, ?, ?)',
+            [email, name, itemsJSON, total]
+        );
+
+        res.status(201).json({
+            success: true,
+            message: "Order saved!",
+            orderId: result.insertId
+        });
+    } catch (err) {
+        console.error("Database Error:", err);
+        res.status(500).json({ error: "Failed to save order to database." });
+    }
+});
+//order_billing_system......................................................................................... 
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
