@@ -115,6 +115,44 @@ app.put('/api/waffles/:id', async (req, res) => {
 
 // --- WAFFLES PART END ---
 
+// --- ICE CREAM PART START ---
+
+// ১. সব আইসক্রিম পাওয়ার জন্য
+app.get('/api/icecreams', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM icecreams');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ২. নতুন আইসক্রিম যোগ করা
+app.post('/api/icecreams', async (req, res) => {
+    try {
+        const { name, price, rating, image } = req.body;
+        const [result] = await pool.query(
+            'INSERT INTO icecreams (name, price, rating, image) VALUES (?, ?, ?, ?)',
+            [name, price, rating, image]
+        );
+        res.status(201).json({ message: "Ice cream added!", id: result.insertId });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ৩. আইসক্রিম ডিলিট করা
+app.delete('/api/icecreams/:id', async (req, res) => {
+    try {
+        await pool.query('DELETE FROM icecreams WHERE id = ?', [req.params.id]);
+        res.json({ message: "Ice cream deleted!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// --- ICE CREAM PART END ---
+
 //customer login and signup.......................................................................................
 // CUSTOMER SIGNUP
 app.post('/api/customer/signup', async (req, res) => {
