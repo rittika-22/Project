@@ -63,6 +63,58 @@ app.put('/api/sweet_desserts/:id', async (req, res) => {
 });
 //sweet deserts part completed here.................................................................................
 
+// --- WAFFLES (EMPLOYEE & CUSTOMER) PART START ---
+
+// ১. GET: সব ওয়াফল ডেটাবেস থেকে পড়ার জন্য (Customer & Employee দুজনেই ব্যবহার করবে)
+app.get('/api/waffles', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM waffles');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ২. POST: নতুন ওয়াফল যোগ করা (আপনার waffles-emp.js থেকে কল হবে)
+app.post('/api/waffles', async (req, res) => {
+    try {
+        const { name, price, rating, image } = req.body;
+        const [result] = await pool.query(
+            'INSERT INTO waffles (name, price, rating, image) VALUES (?, ?, ?, ?)',
+            [name, price, rating, image]
+        );
+        res.status(201).json({ message: "Waffle added to database!", id: result.insertId });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ৩. DELETE: কোনো ওয়াফল ডিলিট করা (Employee Panel থেকে)
+app.delete('/api/waffles/:id', async (req, res) => {
+    try {
+        await pool.query('DELETE FROM waffles WHERE id = ?', [req.params.id]);
+        res.json({ message: "Waffle deleted successfully!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ৪. PUT: ওয়াফল তথ্য এডিট/আপডেট করা
+app.put('/api/waffles/:id', async (req, res) => {
+    try {
+        const { name, price, rating, image } = req.body;
+        await pool.query(
+            'UPDATE waffles SET name=?, price=?, rating=?, image=? WHERE id=?',
+            [name, price, rating, image, req.params.id]
+        );
+        res.json({ message: "Waffle updated successfully!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// --- WAFFLES PART END ---
+
 //customer login and signup.......................................................................................
 // CUSTOMER SIGNUP
 app.post('/api/customer/signup', async (req, res) => {
