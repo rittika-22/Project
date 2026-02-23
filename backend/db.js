@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('dotenv').config({ path: '../.env' }); // Look for .env one level up
 const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
