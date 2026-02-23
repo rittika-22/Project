@@ -63,6 +63,94 @@ app.put('/api/sweet_desserts/:id', async (req, res) => {
 });
 //sweet deserts part completed here.................................................................................
 
+// ১. GET: সব ওয়াফল ডেটাবেস থেকে পড়ার জন্য (Customer & Employee দুজনেই ব্যবহার করবে)
+app.get('/api/waffles', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM waffles');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ২. POST: নতুন ওয়াফল যোগ করা (আপনার waffles-emp.js থেকে কল হবে)
+app.post('/api/waffles', async (req, res) => {
+    try {
+        const { name, price, rating, image } = req.body;
+        const [result] = await pool.query(
+            'INSERT INTO waffles (name, price, rating, image) VALUES (?, ?, ?, ?)',
+            [name, price, rating, image]
+        );
+        res.status(201).json({ message: "Waffle added to database!", id: result.insertId });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ৩. DELETE: কোনো ওয়াফল ডিলিট করা (Employee Panel থেকে)
+app.delete('/api/waffles/:id', async (req, res) => {
+    try {
+        await pool.query('DELETE FROM waffles WHERE id = ?', [req.params.id]);
+        res.json({ message: "Waffle deleted successfully!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ৪. PUT: ওয়াফল তথ্য এডিট/আপডেট করা
+app.put('/api/waffles/:id', async (req, res) => {
+    try {
+        const { name, price, rating, image } = req.body;
+        await pool.query(
+            'UPDATE waffles SET name=?, price=?, rating=?, image=? WHERE id=?',
+            [name, price, rating, image, req.params.id]
+        );
+        res.json({ message: "Waffle updated successfully!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// --- WAFFLES PART END ---
+
+// --- ICE CREAM PART START ---
+
+// ১. সব আইসক্রিম পাওয়ার জন্য
+app.get('/api/icecreams', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM icecreams');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ২. নতুন আইসক্রিম যোগ করা
+app.post('/api/icecreams', async (req, res) => {
+    try {
+        const { name, price, rating, image } = req.body;
+        const [result] = await pool.query(
+            'INSERT INTO icecreams (name, price, rating, image) VALUES (?, ?, ?, ?)',
+            [name, price, rating, image]
+        );
+        res.status(201).json({ message: "Ice cream added!", id: result.insertId });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ৩. আইসক্রিম ডিলিট করা
+app.delete('/api/icecreams/:id', async (req, res) => {
+    try {
+        await pool.query('DELETE FROM icecreams WHERE id = ?', [req.params.id]);
+        res.json({ message: "Ice cream deleted!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// --- ICE CREAM PART END ---
+
 // GET: Fetch all cakes and pastries
 app.get('/api/cakeandpastry', async (req, res) => {
     try {
@@ -156,7 +244,6 @@ app.post('/api/customer/login', async (req, res) => {
     }
 });
 //customer login and signup completed here..................................................................
-
 
 const PORT = 3000;
 app.listen(PORT, () => {
