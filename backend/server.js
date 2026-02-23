@@ -63,6 +63,62 @@ app.put('/api/sweet_desserts/:id', async (req, res) => {
 });
 //sweet deserts part completed here.................................................................................
 
+// GET: Fetch all cakes and pastries
+app.get('/api/cakeandpastry', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM cakeandpastry');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// POST: Add new cake or pastry
+app.post('/api/cakeandpastry', async (req, res) => {
+    try {
+        let { name, price, rating, image, category } = req.body;
+        
+        // This converts "Cake" or "CAKE" to "cake"
+        const normalizedCategory = category ? category.toLowerCase() : null;
+
+        const [result] = await pool.query(
+            'INSERT INTO cakeandpastry (name, price, rating, image, category) VALUES (?, ?, ?, ?, ?)',
+            [name, price, rating, image, normalizedCategory]
+        );
+        res.status(201).json({ message: "Item added!", id: result.insertId });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+// DELETE: Remove a cake or pastry
+app.delete('/api/cakeandpastry/:id', async (req, res) => {
+    try {
+        await pool.query('DELETE FROM cakeandpastry WHERE id = ?', [req.params.id]);
+        res.json({ message: "Item deleted from Cake & Pastry!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// PUT: Update a cake or pastry
+// Add .toLowerCase() to the category variable
+// PUT: Update an existing cake or pastry
+app.put('/api/cakeandpastry/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        let { name, price, rating, image, category } = req.body;
+        const normalizedCategory = category ? category.toLowerCase() : null;
+
+        await pool.query(
+            'UPDATE cakeandpastry SET name=?, price=?, rating=?, image=?, category=? WHERE id=?',
+            [name, price, rating, image, normalizedCategory, id]
+        );
+
+        res.json({ message: "Cake/Pastry updated successfully!" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 //customer login and signup.......................................................................................
 // CUSTOMER SIGNUP
