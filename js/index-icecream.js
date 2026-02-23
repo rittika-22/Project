@@ -1,68 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
-let cart = [];
-  try {
-    // Now we use localStorage with a unified key.
-      const storedCart = localStorage.getItem('customerCart'); 
-      if (storedCart) {
-        cart = JSON.parse(storedCart);
-       }
-      } catch (e) {
-        console.error("Failed to parse cart data from localStorage", e);
+    let cart = [];
+    try {
+        const storedCart = localStorage.getItem('customerCart'); 
+        if (storedCart) {
+            cart = JSON.parse(storedCart);
         }
-
-    const updatedItems = localStorage.getItem('customerIceCreamItems');
-
-    let iceCreamProducts;
-
-    if (updatedItems) {
-        // Use the data saved by the employee panel
-        iceCreamProducts = JSON.parse(updatedItems);
-        console.log('Using employee-updated ice cream data.');
-    } else {
-        // Fallback to a default hardcoded list if no employee updates exist
-        iceCreamProducts = [
-            { "id": 1, "name": "Rainbow Icecream", "price": 450.00, "rating": 4.0, "image": "./images/icecream.png" },
-            { "id": 2, "name": "Chocolate Fudge", "price": 500.00, "rating": 4.5, "image": "./images/chocolate-fudge.jpg" },
-            { "id": 3, "name": "Mint Chocolate Chip", "price": 475.00, "rating": 5.0, "image": "./images/mint-chip.jpg" },
-            { "id": 4, "name": "Strawberry Swirl", "price": 425.00, "rating": 3.5, "image": "./images/strawberry.jpg" },
-            { "id": 5, "name": "Vanilla Bean", "price": 380.00, "rating": 4.5, "image": "./images/vanilla.jpg" },
-            { "id": 6, "name": "Cookie Dough", "price": 530.00, "rating": 5.0, "image": "./images/cookie-dough.jpg" },
-            { "id": 7, "name": "Pistachio Almond", "price": 550.00, "rating": 4.8, "image": "./images/Pistachio Almond.jpg" },
-            { "id": 8, "name": "Salted Caramel", "price": 510.00, "rating": 4.6, "image": "./images/Salted Caramel.jpg" },
-            { "id": 9, "name": "Mango Tango", "price": 480.00, "rating": 4.2, "image": "./images/Mango Tango.webp" },
-            { "id": 10, "name": "Coffee Blast", "price": 490.00, "rating": 4.7, "image": "./images/Coffee Blast.jpg" },
-            { "id": 11, "name": "Black Cherry", "price": 520.00, "rating": 4.9, "image": "./images/Black Cherry.jpg" },
-            { "id": 12, "name": "Lemon Sorbet", "price": 410.00, "rating": 4.3, "image": "./images/Lemon Sorbet.jpg" }
-        ];
-        console.log('Using default hardcoded ice cream data.');
+    } catch (e) {
+        console.error("Failed to parse cart data from localStorage", e);
     }
-    // --- END OF NEW CODE ---
 
-    // --- NEW: Function to render product cards ---
+    let iceCreamProducts = []; 
+    const API_URL = 'http://localhost:3000/api/icecreams';
+
+    // --- ডাটাবেস থেকে আইসক্রিম ডেটা নিয়ে আসা ---
+    async function fetchIceCreamProducts() {
+        try {
+            const response = await fetch(API_URL);
+            iceCreamProducts = await response.json();
+            renderProducts(iceCreamProducts);
+        } catch (err) {
+            console.error('Error fetching ice creams:', err);
+            const productGrid = document.getElementById('ice-cream-grid');
+            if (productGrid) {
+                productGrid.innerHTML = '<p class="text-danger text-center w-full">Failed to load ice creams from database.</p>';
+            }
+        }
+    }
+
+    // --- প্রোডাক্ট কার্ড রেন্ডার করা ---
     function renderProducts(products) {
         const productGrid = document.getElementById('ice-cream-grid');
-        if (!productGrid) {
-            console.error('Ice cream grid container not found.');
-            return;
-        }
+        if (!productGrid) return;
 
-        productGrid.innerHTML = ''; // Clear existing products
+        productGrid.innerHTML = ''; 
 
         products.forEach(product => {
             const productCard = document.createElement('div');
             productCard.className = 'icecream-card d-flex flex-column justify-content-center align-items-center bg-white rounded shadow-md overflow-hidden card-custom-border text-center h-full';
+            
+            // ইমেজের পাথ চেক করা
+            const imagePath = product.image.startsWith('http') || product.image.startsWith('./') 
+                              ? product.image 
+                              : `./images/${product.image}`;
+
             productCard.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover">
+                <img src="${imagePath}" alt="${product.name}" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/400x250?text=Ice+Cream';">
                 <div class="p-3">
                     <h3 class="text-xl font-semibold text-amber-900 mb-2">${product.name}</h3>
-                    <p class="text-gray-700 text-md font-medium mb-3">Price: Tk ${product.price.toFixed(2)}</p>
+                    <p class="text-gray-700 text-md font-medium mb-3">Price: Tk ${parseFloat(product.price).toFixed(2)}</p>
                     <div class="star-rating text-lg">
                         ${generateStarRating(product.rating)}
                     </div>
                     <button class="add-to-cart-btn inline-block px-4 py-2 bg-pink-500 text-white font-semibold rounded-full shadow-md hover:bg-pink-600 transition-colors mt-4" 
                                  data-name="${product.name}" 
                                  data-price="${product.price}" 
-                                 data-image-src="${product.image}"> 
+                                 data-image-src="${imagePath}"> 
                         Add to Cart
                     </button>
                 </div>
@@ -71,29 +63,27 @@ let cart = [];
         });
     }
 
-
-
-    // Helper function to generate star rating HTML
+    // স্টার রেটিং জেনারেটর
     function generateStarRating(rating) {
         let stars = '';
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 !== 0;
+        const numericRating = parseFloat(rating);
+        const fullStars = Math.floor(numericRating);
+        const hasHalfStar = numericRating % 1 !== 0;
 
         for (let i = 0; i < fullStars; i++) {
-            stars += '<i class="fas fa-star"></i>';
+            stars += '<i class="fas fa-star text-warning"></i>';
         }
         if (hasHalfStar) {
-            stars += '<i class="fas fa-star-half-alt"></i>';
+            stars += '<i class="fas fa-star-half-alt text-warning"></i>';
         }
-        const emptyStars = 5 - Math.ceil(rating);
+        const emptyStars = 5 - Math.ceil(numericRating);
         for (let i = 0; i < emptyStars; i++) {
-            stars += '<i class="far fa-star"></i>';
+            stars += '<i class="far fa-star text-warning"></i>';
         }
-        return `${stars} (${rating.toFixed(1)})`;
+        return `${stars} (${numericRating.toFixed(1)})`;
     }
 
-
-    // --- Event Delegation for Add to Cart Buttons ---
+    // কার্ডে ক্লিক করে কার্টে অ্যাড করা
     const productGrid = document.getElementById('ice-cream-grid');
     if (productGrid) {
         productGrid.addEventListener('click', (event) => {
@@ -108,27 +98,9 @@ let cart = [];
         });
     }
 
-    // --- Initial render of products and search bar functionality ---
-    renderProducts(iceCreamProducts);
-
-    const searchInput = document.getElementById('ice-cream-search');
-    const searchButton = document.getElementById('search-button');
-
-    if (searchButton && searchInput) {
-        searchButton.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent form submission
-            performSearch();
-        });
-
-        searchInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent form submission
-                performSearch();
-            }
-        });
-    }
-
+    // সার্চ ফাংশনালিটি
     function performSearch() {
+        if (!searchInput) return;
         const searchTerm = searchInput.value.toLowerCase();
         const filteredProducts = iceCreamProducts.filter(product =>
             product.name.toLowerCase().includes(searchTerm)
@@ -136,19 +108,19 @@ let cart = [];
         renderProducts(filteredProducts);
     }
 
+    const searchInput = document.getElementById('ice-cream-search');
+    const searchButton = document.getElementById('search-button');
 
+    if (searchButton && searchInput) {
+        searchButton.addEventListener('click', (e) => { e.preventDefault(); performSearch(); });
+        searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); performSearch(); } });
+    }
 
+    // --- কার্ট ফাংশনালিটি ---
     const cartCountSpan = document.getElementById('cart-count');
-    const cartModal = document.getElementById('cart-modal');
-    const cartItemsUl = document.getElementById('cart-items');
-    const cartTotalSpan = document.getElementById('cart-total');
-    const closeButtons = document.querySelectorAll('.close-button');
-    const viewCartButton = document.getElementById('view-cart');
     const confirmationModal = document.getElementById('confirmation-modal');
-    const goToCartButton = confirmationModal.querySelector('.go-to-cart-button');
-    
+    const goToCartButton = confirmationModal?.querySelector('.go-to-cart-button');
 
-    // Add item to cart function
     function addItemToCart(name, price, imageSrc) {
         const existingItem = cart.find(item => item.name === name);
         if (existingItem) {
@@ -159,85 +131,59 @@ let cart = [];
         saveCart();
     }
 
-    // Update cart count display
     function updateCartCount() {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        if (cartCountSpan) {
-            cartCountSpan.textContent = totalItems;
-        }
+        if (cartCountSpan) cartCountSpan.textContent = totalItems;
     }
 
-    // Save cart to session storage
     function saveCart() {
-    // Save the cart to the unified localStorage key.
-        localStorage.setItem('customerCart', JSON.stringify(cart));
-        updateCartCount();
-     }
-
-     
-
-    // Show confirmation modal
-    function showConfirmationModal() {
-        if (confirmationModal) {
-            confirmationModal.classList.remove('hidden');
-        }
+        localStorage.setItem('customerCart', JSON.stringify(cart));
+        updateCartCount();
     }
 
-    // Hide modals when their specific close button is clicked
-    closeButtons.forEach(button => {
+    function showConfirmationModal() {
+        if (confirmationModal) confirmationModal.classList.remove('hidden');
+    }
+
+    document.querySelectorAll('.close-button').forEach(button => {
         button.addEventListener('click', () => {
-            const parentModal = button.closest('.modal');
-            if (parentModal) {
-                parentModal.classList.add('hidden');
-            }
+            button.closest('.modal')?.classList.add('hidden');
         });
     });
 
     if (goToCartButton) {
-    goToCartButton.addEventListener('click', () => {
-        // Navigate to the order page to see all items together.
-        window.location.href = 'order.html'; 
-    });
-}
+        goToCartButton.addEventListener('click', () => { window.location.href = 'order.html'; });
+    }
 
-    // --- Employee Sector Login: This is the ONLY part that handles the login modal ---
+    // --- এমপ্লয়ী সেক্টর লগইন (নিরাপদভাবে চেক করা হয়েছে) ---
     const employeeSectorLink = document.getElementById('employeeSectorLink');
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
-    const loginMessage = document.getElementById('loginMessage');
-    const employeeIdInput = document.getElementById('employeeId');
-    const passwordInput = document.getElementById('password');
-    const loginCloseBtn = loginModal.querySelector('.close-btn');
 
-    employeeSectorLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        loginModal.classList.remove('hidden');
-    });
+    if (employeeSectorLink && loginModal) {
+        employeeSectorLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.classList.remove('hidden');
+        });
+    }
 
-    // Close login modal with its close button
-    loginCloseBtn.addEventListener('click', () => {
-        loginModal.classList.add('hidden');
-    });
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('employeeId')?.value;
+            const pass = document.getElementById('password')?.value;
 
-    // Handle login form submission
-    loginForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const employeeId = employeeIdInput.value;
-        const password = passwordInput.value;
+            if (id === 'admin' && pass === 'admin') {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'icecream-emp.html';
+            } else {
+                const msg = document.getElementById('loginMessage');
+                if (msg) msg.textContent = 'Invalid ID or password.';
+            }
+        });
+    }
 
-        if (employeeId === 'admin' && password === 'admin') {
-            localStorage.setItem('isLoggedIn', 'true');
-            loginMessage.textContent = 'Login successful! Redirecting...';
-            loginMessage.style.color = 'green';
-            setTimeout(() => {
-                window.location.href = 'icecream-emp.html'; // Redirect to the ice cream employee panel
-            }, 1000);
-        } else {
-            loginMessage.textContent = 'Invalid ID or password.';
-            loginMessage.style.color = 'red';
-        }
-    });
-
-    // Initial cart count update
+    // শুরুতে ডেটা লোড করা
+    fetchIceCreamProducts();
     updateCartCount();
 });

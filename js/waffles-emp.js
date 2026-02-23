@@ -2,14 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const isLoggedIn = localStorage.getItem('isWaffleLoggedIn');
 
     if (!isLoggedIn) {
-        window.location.href = 'index.html'; // Redirect to main page if not logged in
+        window.location.href = 'index.html'; 
         return;
     }
 
     const waffleListContainer = document.getElementById('waffleList');
     const searchBar = document.getElementById('search-bar');
     const goToCustomerViewBtn = document.getElementById('go-to-customer-view-btn');
-    const applyChangesBtn = document.getElementById('apply-changes-btn');
     const addItemBtn = document.getElementById('add-item-btn');
     const logoutButton = document.getElementById('logoutButton');
 
@@ -26,33 +25,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const waffleImageInput = document.getElementById('waffleImage');
     const modalSubmitButton = document.getElementById('modalSubmitButton');
     const modalCancelButton = document.getElementById('modalCancelButton');
-    const modalCloseButtons = waffleManageModal.querySelectorAll('.close-button'); // Close buttons for add/edit modal
+    const modalCloseButtons = waffleManageModal.querySelectorAll('.close-button');
 
     // Logout Confirmation Modal Elements
     const logoutConfirmationModal = document.getElementById('logout-confirmation-modal');
     const confirmLogoutButton = document.getElementById('confirmLogoutButton');
-    const logoutModalCloseButtons = logoutConfirmationModal.querySelectorAll('.close-button'); // Close buttons for logout modal
+    const logoutModalCloseButtons = logoutConfirmationModal.querySelectorAll('.close-button');
 
+    let editingWaffleId = null; 
+    let currentWaffles = []; 
 
-    let editingWaffleId = null; // To keep track of the waffle being edited
-    let currentWaffles = []; // Holds the current state of waffles for the employee panel
+    // --- API base URL ---
+    const API_URL = 'http://localhost:3000/api/waffles';
 
-    // --- Data Loading and Saving ---
-    function loadWafflesFromStorage(key) {
-        const storedItems = localStorage.getItem(key);
-        return storedItems ? JSON.parse(storedItems) : [];
+    // --- ডাটাবেস থেকে ওয়াফল লোড করা (Read) ---
+    async function fetchWaffles() {
+        try {
+            const response = await fetch(API_URL);
+            currentWaffles = await response.json();
+            renderWaffles();
+        } catch (err) {
+            console.error('Error fetching waffles:', err);
+            alert('Failed to load data from database.');
+        }
     }
 
-    function saveWafflesToStorage(key, waffles) {
-        localStorage.setItem(key, JSON.stringify(waffles));
-    }
-
-    // --- Rendering Waffles ---
+    // --- রেন্ডারিং ওয়াফল কার্ডস ---
     function renderWaffles(filterText = '') {
-        waffleListContainer.innerHTML = ''; // Clear current list
+        waffleListContainer.innerHTML = ''; 
         let filteredWaffles = currentWaffles;
 
-        // Apply search filter
         if (filterText) {
             const lowerCaseFilter = filterText.toLowerCase();
             filteredWaffles = currentWaffles.filter(waffle =>
@@ -60,10 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
-        // Show messages based on filter and waffle count
+        // মেসেজ হ্যান্ডলিং
         if (currentWaffles.length === 0) {
             noWafflesMessage.classList.remove('hidden');
-            noSearchResultsMessage.classList.add('hidden');
             return;
         } else {
             noWafflesMessage.classList.add('hidden');
@@ -75,13 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
             noSearchResultsMessage.classList.add('hidden');
         }
 
-        if (filteredWaffles.length === 0 && currentWaffles.length > 0) {
-            noSearchResultsMessage.classList.remove('hidden');
-            noWafflesMessage.classList.add('hidden');
-            return;
-        }
-
-
         filteredWaffles.forEach(waffle => {
             const starRatingHtml = Array(5).fill().map((_, i) =>
                 i < Math.floor(waffle.rating) ? '<i class="fas fa-star"></i>' :
@@ -89,89 +83,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<i class="far fa-star"></i>'
             ).join('');
 
+            // ইমেজ পাথ চেক: যদি পাথে images/ না থাকে তবে যোগ করে দেবে
+            const imagePath = waffle.image.startsWith('http') || waffle.image.startsWith('./') || waffle.image.startsWith('images/') 
+                                ? waffle.image 
+                                : `images/${waffle.image}`;
+
             const waffleCard = `
                 <div class="waffle-card bg-white rounded-xl shadow-md overflow-hidden border border-amber-200 text-center p-4 relative">
-                    <img src="${waffle.image}" onerror="this.onerror=null;this.src='https://placehold.co/150x150/FFF/000?text=Waffle+Img';" alt="${waffle.name}" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <img src="${imagePath}" onerror="this.onerror=null;this.src='https://placehold.co/150x150?text=No+Image';" alt="${waffle.name}" class="w-full h-32 object-cover mb-4 rounded-lg">
                     <h3 class="text-xl font-semibold text-amber-900 mb-2">${waffle.name}</h3>
-                    <p class="text-gray-700 text-md font-medium mb-1">Price: Tk ${waffle.price.toFixed(2)}</p>
+                    <p class="text-gray-700 text-md font-medium mb-1">Price: Tk ${parseFloat(waffle.price).toFixed(2)}</p>
                     <div class="star-rating text-lg mb-4">
-                        ${starRatingHtml} (${waffle.rating.toFixed(1)})
+                        ${starRatingHtml} (${parseFloat(waffle.rating).toFixed(1)})
                     </div>
                     <div class="flex justify-center space-x-2">
-                        <button data-id="${waffle.id}" class="edit-waffle-btn bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full text-sm">Edit</button>
-                        <button data-id="${waffle.id}" class="delete-waffle-btn bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full text-sm">Delete</button>
+                        <button onclick="editWaffle(${waffle.id})" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full text-sm">Edit</button>
+                        <button onclick="deleteWaffle(${waffle.id})" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full text-sm">Delete</button>
                     </div>
                 </div>
             `;
-            waffleListContainer.innerHTML += waffleCard;
-        });
-
-        attachWaffleActionListeners();
-    }
-
-    // Attach event listeners for edit and delete buttons
-    function attachWaffleActionListeners() {
-        document.querySelectorAll('.edit-waffle-btn').forEach(button => {
-            button.addEventListener('click', (event) => editWaffle(event.target.dataset.id));
-        });
-        document.querySelectorAll('.delete-waffle-btn').forEach(button => {
-            button.addEventListener('click', (event) => deleteWaffle(event.target.dataset.id));
+            waffleListContainer.insertAdjacentHTML('beforeend', waffleCard);
         });
     }
 
-    // --- Modal Form Handling (Add/Edit) ---
-    addItemBtn.addEventListener('click', () => {
-        editingWaffleId = null;
-        waffleForm.reset();
-        modalFormTitle.textContent = 'Add New Waffle';
-        modalSubmitButton.textContent = 'Add Waffle';
-        waffleManageModal.classList.remove('hidden');
-    });
-
-    modalCancelButton.addEventListener('click', () => {
-        waffleManageModal.classList.add('hidden');
-    });
-
-    modalCloseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            waffleManageModal.classList.add('hidden');
-        });
-    });
-
-    waffleForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        const name = waffleNameInput.value;
-        const price = parseFloat(wafflePriceInput.value);
-        const rating = parseFloat(waffleRatingInput.value);
-        const image = waffleImageInput.value;
-
-        if (!name || isNaN(price) || isNaN(rating) || !image) {
-            alert('Please fill in all fields correctly.'); // Replace with a custom modal
-            return;
+    // --- ওয়াফল ডিলিট করা ---
+    window.deleteWaffle = async (id) => {
+        if (confirm('Are you sure you want to delete this waffle from database?')) {
+            try {
+                const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    fetchWaffles(); // লিস্ট রিফ্রেশ করা
+                }
+            } catch (err) {
+                console.error('Error deleting waffle:', err);
+            }
         }
-        if (rating < 1 || rating > 5) {
-            alert('Rating must be between 1 and 5.'); // Replace with a custom modal
-            return;
-        }
+    };
 
-        if (editingWaffleId) {
-            currentWaffles = currentWaffles.map(waffle =>
-                waffle.id == editingWaffleId ? { ...waffle, name, price, rating, image } : waffle
-            );
-        } else {
-            const newId = currentWaffles.length > 0 ? Math.max(...currentWaffles.map(w => w.id)) + 1 : 1;
-            currentWaffles.push({ id: newId, name, price, rating, image });
-        }
-
-        saveWafflesToStorage('employeeWaffleItems', currentWaffles); // Save to employee's working copy
-        waffleForm.reset();
-        waffleManageModal.classList.add('hidden');
-        renderWaffles();
-    });
-
-    function editWaffle(id) {
-        const waffleToEdit = currentWaffles.find(waffle => waffle.id == id);
+    // --- ওয়াফল এডিট মুড ওপেন করা ---
+    window.editWaffle = (id) => {
+        const waffleToEdit = currentWaffles.find(w => w.id == id);
         if (waffleToEdit) {
             waffleNameInput.value = waffleToEdit.name;
             wafflePriceInput.value = waffleToEdit.price;
@@ -183,74 +134,73 @@ document.addEventListener('DOMContentLoaded', () => {
             modalSubmitButton.textContent = 'Update Waffle';
             waffleManageModal.classList.remove('hidden');
         }
-    }
+    };
 
-    function deleteWaffle(id) {
-        currentWaffles = currentWaffles.filter(waffle => waffle.id != id);
-        saveWafflesToStorage('employeeWaffleItems', currentWaffles);
-        renderWaffles();
-    }
+    // --- ফর্ম সাবমিট (Add or Update) ---
+    waffleForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    // --- Header Button Functionality ---
-    goToCustomerViewBtn.addEventListener('click', () => {
-        window.location.href = 'waffles.html'; // Navigate to the customer-facing waffle page
+        const waffleData = {
+            name: waffleNameInput.value,
+            price: parseFloat(wafflePriceInput.value),
+            rating: parseFloat(waffleRatingInput.value),
+            image: waffleImageInput.value
+        };
+
+        try {
+            let response;
+            if (editingWaffleId) {
+                // Update existing waffle
+                response = await fetch(`${API_URL}/${editingWaffleId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(waffleData)
+                });
+            } else {
+                // Add new waffle
+                response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(waffleData)
+                });
+            }
+
+            if (response.ok) {
+                waffleManageModal.classList.add('hidden');
+                waffleForm.reset();
+                fetchWaffles(); // ডাটাবেস থেকে নতুন লিস্ট আনা
+            }
+        } catch (err) {
+            console.error('Error saving waffle:', err);
+        }
     });
 
-    applyChangesBtn.addEventListener('click', () => {
-        saveWafflesToStorage('customerWaffleItems', currentWaffles); // Overwrite customer view with employee's changes
-        alert('Changes applied to customer view successfully!'); // Replace with a custom modal in a real app
+    // --- Modals and UI Buttons ---
+    addItemBtn.addEventListener('click', () => {
+        editingWaffleId = null;
+        waffleForm.reset();
+        modalFormTitle.textContent = 'Add New Waffle';
+        modalSubmitButton.textContent = 'Add Waffle';
+        waffleManageModal.classList.remove('hidden');
     });
 
-    // --- Search Bar Functionality ---
-    searchBar.addEventListener('input', (event) => {
-        renderWaffles(event.target.value);
-    });
+    modalCancelButton.addEventListener('click', () => waffleManageModal.classList.add('hidden'));
+    modalCloseButtons.forEach(btn => btn.addEventListener('click', () => waffleManageModal.classList.add('hidden')));
 
-    // --- Logout Functionality ---
-    logoutButton.addEventListener('click', () => {
-        logoutConfirmationModal.classList.remove('hidden');
-    });
+    searchBar.addEventListener('input', (e) => renderWaffles(e.target.value));
 
+    logoutButton.addEventListener('click', () => logoutConfirmationModal.classList.remove('hidden'));
     confirmLogoutButton.addEventListener('click', () => {
         localStorage.removeItem('isWaffleLoggedIn');
-        window.location.href = 'index.html'; // Redirect to home page after logout
+        window.location.href = 'index.html';
     });
 
-    logoutModalCloseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            logoutConfirmationModal.classList.add('hidden');
-        });
+    logoutModalCloseButtons.forEach(btn => btn.addEventListener('click', () => logoutConfirmationModal.classList.add('hidden')));
+
+    goToCustomerViewBtn.addEventListener('click', () => {
+        window.location.href = 'waffles.html';
     });
 
-    // --- Initial Load ---
-    function initializeEmployeePanel() {
-        // Load employee's working copy, or if none, load from customer view as a starting point
-        currentWaffles = loadWafflesFromStorage('employeeWaffleItems');
-        if (currentWaffles.length === 0) {
-            // Fallback to default if no employee items and no customer items
-            const defaultWaffles = [
-            { "id": 1, "name": "Classic Waffle", "price": 350.00, "rating": 4.7, "image": "./images/classicwaffle.jpg" },
-            { "id": 2, "name": "Chocolate Chip Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-chocolate.jpg" },
-            { "id": 3, "name": "Blueberry Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-blueberry.jpg" },
-            { "id": 4, "name": "Strawberry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-strawberry.jpg" },
-            { "id": 5, "name": "Red Velvet Waffle", "price": 420.00, "rating": 4.9, "image": "./images/waffle-redvelvet.jpg" },
-            { "id": 6, "name": "Cinnamon Roll Waffle", "price": 410.00, "rating": 4.7, "image": "./images/waffle-cinnamon.jpg" },
-            { "id": 7, "name": "Banana Nut Waffle", "price": 370.00, "rating": 4.5, "image": "./images/waffle-banana.jpg" },
-            { "id": 8, "name": "Pumpkin Spice Waffle", "price": 380.00, "rating": 4.3, "image": "./images/waffle-pumpkin.webp" },
-            { "id": 9, "name": "Lemon Berry Waffle", "price": 390.00, "rating": 4.6, "image": "./images/waffle-lemon.jpeg" },
-            { "id": 10, "name": "Caramel Drizzle Waffle", "price": 400.00, "rating": 4.8, "image": "./images/waffle-caramel.jpeg" },
-            { "id": 11, "name": "S'mores Waffle", "price": 430.00, "rating": 4.9, "image": "./images/waffle-smores.webp" },
-            { "id": 12, "name": "Apple Pie Waffle", "price": 380.00, "rating": 4.5, "image": "./images/waffle-apple.jpg" }
-        ];
-
-            currentWaffles = loadWafflesFromStorage('customerWaffleItems');
-            if (currentWaffles.length === 0) { // If customer items are also empty, use the hardcoded defaults
-                currentWaffles = defaultWaffles;
-            }
-            saveWafflesToStorage('employeeWaffleItems', currentWaffles); // Create a working copy
-        }
-        renderWaffles();
-    }
-
-    initializeEmployeePanel();
+    // ইনিশিয়াল লোড
+    fetchWaffles();
 });
